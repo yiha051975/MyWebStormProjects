@@ -203,18 +203,19 @@ app.get('/api/RetrieveFile', function(req, res) {
                 gridStore.open(function(err, gridStore) {
                     var stream = gridStore.stream();
 
+                    // Content-Disposition would set the file name and if the browser should download the file immediately when the get request is processed
+                    // 'attachment' would cause the browser to download the file immediately when get operation went through.
+                    // filename would only default the file name for this file. EX. filename=test.txt then the file name will be 'test.txt'
+                    // Example:     'Content-Disposition':'attachment;filename=' + this.gs.filename
+                    res.writeHead(200, {'Content-Type': gridStore.contentType, 'Content-Disposition':'filename=' + gridStore.filename, 'Content-Length':gridStore.length.toString()});
                     stream.on("data", function(chunk) {
                         console.log("Chunk of file data");
+                        res.write(chunk);
                     });
 
                     stream.on("end", function() {
                         console.log("EOF of file");
-                        // Content-Disposition would set the file name and if the browser should download the file immediately when the get request is processed
-                        // 'attachment' would cause the browser to download the file immediately when get operation went through.
-                        // filename would only default the file name for this file. EX. filename=test.txt then the file name will be 'test.txt'
-                        // Example:     'Content-Disposition':'attachment;filename=' + this.gs.filename
-                        res.writeHead(200, {'Content-Type': this.gs.contentType, 'Content-Disposition':'filename=' + this.gs.filename, 'Content-Length':this.gs.length.toString()});
-                        res.end(this.gs.currentChunk.data.buffer, 'binary');
+                        res.end();
                     });
 
                     stream.on("close", function() {
