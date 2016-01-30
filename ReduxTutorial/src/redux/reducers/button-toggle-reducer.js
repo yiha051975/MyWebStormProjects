@@ -1,13 +1,16 @@
 import * as actionTypes from '../actions/action-type.js';
 
-const initialState = {
+/*const initialState = {
     isToggleOn: true
-};
+};*/
 
-export default function buttonToggleReducer(state = initialState, action = '') {
+export default function buttonToggleReducer(state = {}, action = '') {
     switch (action.type) {
         case actionTypes.TOGGLE_BUTTON:
-            return {isToggleOn: !action.isToggleOn};/*Object.assign({}, state)*/
+            let newAction = {};
+            newAction[action.containerId] = action;
+            newAction[action.containerId].isToggleOn = !action.isToggleOn;
+            return Object.assign({}, state, newAction);/*{isToggleOn: !action.isToggleOn};*//*Object.assign({}, state)*/
         default:
             return state;
     }

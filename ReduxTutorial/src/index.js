@@ -17,6 +17,7 @@ ReactDOM.render(
         <div>
             <h1>Redux Tutorial</h1>
             <ButtonToggleContainer />
+            <ButtonToggleContainer />
         </div>
     </Provider>,
     document.getElementById('app')

@@ -3,9 +3,10 @@
  */
 import * as actionTypes from './action-type.js';
 
-export function toggleButton(isToggleOn) {
+export function toggleButton(isToggleOn, containerId) {
     return {
         type: actionTypes.TOGGLE_BUTTON,
-        isToggleOn: isToggleOn
+        isToggleOn: isToggleOn,
+        containerId: containerId
     };
 }

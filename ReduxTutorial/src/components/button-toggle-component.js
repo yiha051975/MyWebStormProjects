@@ -30,7 +30,7 @@ ButtonToggleComponent.propTypes = {
     onButtonClick: React.PropTypes.func.isRequired
 };
 
-ButtonToggleComponent.defaultProps = {
+/*ButtonToggleComponent.defaultProps = {
     isToggleOn: true,
     onButtonClick: function() {}
-};
+};*/
