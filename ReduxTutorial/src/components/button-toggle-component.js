@@ -2,12 +2,18 @@
  * Created by Sheldon Lee on 1/24/2016.
  */
 import React from 'react';
+import guid from '../guid/guid.js';
 
 export default class ButtonToggleComponent extends React.Component {
+
+    componentWillMount() {
+        this.componentId = guid();
+    }
+
     render() {
-        console.log('This is in button-toggle-component');
-        console.log(this.props);
-        let buttonValue = this.props.isToggleOn ? 'ON' : "OFF";
+        let isToggleOn = this.props.isToggleOn(this.componentId);
+        this.isToggleOn = isToggleOn;
+        let buttonValue = isToggleOn ? 'ON' : "OFF";
         return (
             <div>
                 <button type="button" className="buttontoggle-button" onClick={this.handleClick.bind(this)}>{buttonValue}</button>
@@ -16,17 +22,12 @@ export default class ButtonToggleComponent extends React.Component {
     }
 
     handleClick(e) {
-        console.log('The following node has been clicked:');
-        console.log(e.target);
-        console.log('Current value of the node is ' + e.target.innerHTML);
-        console.log('Dispatching state and action....');
-        /*this.props.dispatch(this.props.isToggleOn);*/
-        this.props.onButtonClick(this.props.isToggleOn);
+        this.props.onButtonClick(this.isToggleOn, this.componentId);
     }
 }
 
 ButtonToggleComponent.propTypes = {
-    isToggleOn: React.PropTypes.bool.isRequired,
+    isToggleOn: React.PropTypes.func.isRequired,
     onButtonClick: React.PropTypes.func.isRequired
 };
 

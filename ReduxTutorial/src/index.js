@@ -6,6 +6,7 @@ import ReactDOM from "react-dom";
 import {Provider} from 'react-redux';
 import configureStore from './redux/main.js';
 import ButtonToggleContainer from './containers/button-toggle-container.js';
+import FileUploadContainer from './containers/file-upload-container.js';
 import buttonToggleApp from './redux/reducers/redux-index.js';
 import { createStore } from 'redux';
 
@@ -17,7 +18,7 @@ ReactDOM.render(
         <div>
             <h1>Redux Tutorial</h1>
             <ButtonToggleContainer />
-            <ButtonToggleContainer />
+            <FileUploadContainer />
         </div>
     </Provider>,
     document.getElementById('app')

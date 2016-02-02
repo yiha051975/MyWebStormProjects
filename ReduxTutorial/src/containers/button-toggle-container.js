@@ -22,24 +22,20 @@ class ButtonToggleContainer extends React.Component {
 
     }
 
-    isToggleOn(state) {
-        if (undefined !== state && state[this.containerId]) {
-            return state[this.containerId].isToggleOn;
+    isToggleOn(componentId) {
+        if (undefined !== this.props.buttonToggleReducer && this.props.buttonToggleReducer[componentId]) {
+            return this.props.buttonToggleReducer[componentId].isToggleOn;
         } else {
             return true;
         }
     }
 
     render() {
-        //if (!this.containerId) {
-        //    this.containerId = guid();
-        //}
-        console.log('This is in button-toggle-container');
-        console.log(this.props);
         const {dispatch} = this.props;
         return (
             <div>
-                <ButtonToggleComponent isToggleOn={this.isToggleOn(this.props.buttonToggleReducer)} onButtonClick={isToggleOn => dispatch(toggleButton(isToggleOn, this.containerId))}/>
+                <ButtonToggleComponent isToggleOn={this.isToggleOn.bind(this)} onButtonClick={(isToggleOn, componentId) => dispatch(toggleButton(isToggleOn, componentId))}/>
+                <ButtonToggleComponent isToggleOn={this.isToggleOn.bind(this)} onButtonClick={(isToggleOn, componentId) => dispatch(toggleButton(isToggleOn, componentId))}/>
             </div>
         );
     }
@@ -49,7 +45,6 @@ function mapStateToProps(state, props) {
     /*return {
         isToggleOn: state.buttonToggleReducer.isToggleOn
     };*/
-    console.log(props);
     return state;
 }
 
