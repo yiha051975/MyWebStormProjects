@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import guid from '../guid/guid.js';
 import {attachFile, uploadFiles} from '../redux/actions/action-creator.js';
 import DocumentUploadListItem from '../components/document-upload/document-upload-list-item.js';
+import '../styles/containers/file-upload-container.css';
 
 class FileUploadContainer extends React.Component {
 
@@ -26,7 +27,7 @@ class FileUploadContainer extends React.Component {
         if (this.props.FileUploadReducer.files && this.props.FileUploadReducer.files.length > 0) {
             return this.props.FileUploadReducer.files.map(function(file, index) {
                 return (
-                    <DocumentUploadListItem key={index} componentId={file.id} file={file.file} isUploaded={file.isUploaded} uploadedDate={file.uploadedDate} />
+                    <DocumentUploadListItem key={index} componentId={file.id} fileName={file.file.name} isUploaded={file.isUploaded} uploadedDate={file.uploadedDate} />
                 );
             });
         } else {
@@ -39,7 +40,8 @@ class FileUploadContainer extends React.Component {
             <div>
                 <div>Files</div>
                 {this.documentUploadListItemHandle()}
-                <input type="file" onChange={this.fileInputChange.bind(this)} />
+                <input type="file" id={this.componentId} className="file-upload-hidden-input accessibility-hidden" aria-hidden="true" onChange={this.fileInputChange.bind(this)} />
+                <label htmlFor={this.componentId} className="file-upload-link">Add a file<span className="accessibility-hidden">Click to add a file for upload</span></label>
             </div>
         );
     }

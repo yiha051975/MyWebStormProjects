@@ -13,9 +13,9 @@ export default class DocumentUploadListItem extends React.Component {
 
     displayFileName() {
         if (this.props.isUploaded) {
-            return (<a href={this.props.link} target="_blank" className="file-uploaded-link" ref={(linkNode) => this.link = linkNode}>{this.props.file.name}</a>)
+            return (<a href={this.props.link} target="_blank" className="file-uploaded-link" ref={(linkNode) => this.link = linkNode}>{this.props.fileName}</a>)
         } else {
-            return (<div className="file-name">{this.props.file.name}</div>)
+            return (<div className="file-name">{this.props.fileName}</div>)
         }
     }
 
@@ -40,6 +40,7 @@ export default class DocumentUploadListItem extends React.Component {
 }
 
 DocumentUploadListItem.propTypes = {
+    fileName: React.PropTypes.string.isRequired,
     componentId: React.PropTypes.string.isRequired,
     isUploaded: React.PropTypes.bool.isRequired,
     file: React.PropTypes.object.isRequired

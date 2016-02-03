@@ -1,0 +1,21 @@
+.accessibility-hidden {
+    position: absolute;
+    height: 0.01em;
+    width: 0.01em;
+    overflow: hidden;
+}
+
+.file-upload-link {
+    z-index: 99;
+    display: inline-block;
+    color: #0000EE;
+}
+
+.file-upload-link:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.hide {
+    display: none;
+}
