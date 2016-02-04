@@ -31,6 +31,7 @@ export default class DocumentUploadListItem extends React.Component {
         return (
             <div>
                 <div className="file-upload-link-container">
+                    <canvas width="200" height="200"></canvas>
                     {this.displayFileName()}
                     {this.displayUploadedDate()}
                 </div>
