@@ -27,7 +27,7 @@ class FileUploadContainer extends React.Component {
         if (this.props.FileUploadReducer.files && this.props.FileUploadReducer.files.length > 0) {
             return this.props.FileUploadReducer.files.map(function(file, index) {
                 return (
-                    <DocumentUploadListItem key={index} componentId={file.id} fileName={file.file.name} isUploaded={file.isUploaded} uploadedDate={file.uploadedDate} />
+                    <DocumentUploadListItem key={index} componentId={file.id} file={file.file} isUploaded={file.isUploaded} uploadedDate={file.uploadedDate} />
                 );
             });
         } else {
@@ -39,9 +39,18 @@ class FileUploadContainer extends React.Component {
         return (
             <div>
                 <div>Files</div>
+                <div className="file-upload-function-bar">
+                    <div className="file-upload-button-container">
+                        <input type="file" id={this.componentId} className="file-upload-hidden-input accessibility-hidden" aria-hidden="true" onChange={this.fileInputChange.bind(this)} tabIndex="-1"/>
+                        <label htmlFor={this.componentId} className="file-upload-button file-upload-button-success" role="button" tabIndex="0">
+                            <span className="add-files-icon" role="presentation"></span>
+                            <span>Add files...</span>
+                            <span className="accessibility-hidden">Click to add a file for upload</span>
+                        </label>
+                    </div>
+                </div>
                 {this.documentUploadListItemHandle()}
-                <input type="file" id={this.componentId} className="file-upload-hidden-input accessibility-hidden" aria-hidden="true" onChange={this.fileInputChange.bind(this)} />
-                <label htmlFor={this.componentId} className="file-upload-link">Add a file<span className="accessibility-hidden">Click to add a file for upload</span></label>
+
             </div>
         );
     }
