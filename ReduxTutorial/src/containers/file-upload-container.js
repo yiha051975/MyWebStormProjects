@@ -65,7 +65,7 @@ class FileUploadContainer extends React.Component {
                 <div>Files</div>
                 <div className="file-upload-function-bar">
                     <div className="file-upload-button-container">
-                        <input type="file" id={this.componentId} className="file-upload-hidden-input accessibility-hidden" aria-hidden="true" onChange={this.fileInputChange.bind(this)} tabIndex="-1"/>
+                        <input type="file" id={this.componentId} className="file-upload-hidden-input accessibility-hidden" aria-hidden="true" onChange={this.fileInputChange.bind(this)} tabIndex="-1" multiple accept="image/*,application/pdf" />
                         <label htmlFor={this.componentId} className="file-upload-button file-upload-button-success" ref={(label) => this.fileAttachLabel = label} role="button" tabIndex="0" onKeyPress={this.spacebarPressed.bind(this)}>
                             <span className="add-files-icon" role="presentation"></span>
                             <span>Add files...</span>
@@ -74,7 +74,11 @@ class FileUploadContainer extends React.Component {
                     </div>
                     <div className="file-upload-button-container">
                         <button className="file-upload-button file-upload-button-upload">
-                            <span className="start-upload-icon" role="presentation"><span className="start-upload-icon-after"><span className="start-upload-icon-last"></span></span></span>
+                            <span className="start-upload-icon" role="presentation">
+                                <span className="start-upload-icon-after">
+                                    <span className="start-upload-icon-last"></span>
+                                </span>
+                            </span>
                             <span>Start upload</span>
                             <span className="accessibility-hidden">Click to upload all files</span>
                         </button>
