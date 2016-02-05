@@ -18,7 +18,6 @@ export function attachFile(files, parentId) {
     for (var i = 0; i < files.length; i++) {
         let file = {
             id: guid(),
-            parentId: parentId,
             file: files.item(i),
             isUploaded: false,
             uploadedDate: undefined
@@ -26,6 +25,7 @@ export function attachFile(files, parentId) {
 
         returnFiles.files.push(file);
     }
+    returnFiles.parentId = parentId;
     returnFiles.type = actionTypes.ATTACH_FILE;
     return returnFiles;
 }

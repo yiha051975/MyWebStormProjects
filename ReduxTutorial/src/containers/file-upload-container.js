@@ -10,6 +10,11 @@ import '../styles/containers/file-upload-container.css';
 
 class FileUploadContainer extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.shouldComponentUpdate = require('react/lib/ReactComponentWithPureRenderMixin').shouldComponentUpdate.bind(this);
+    }
+
     componentWillMount() {
         this.componentId = guid();
     }
@@ -25,8 +30,8 @@ class FileUploadContainer extends React.Component {
 
     documentUploadListItemHandle() {
         'use strict';
-        if (this.props.FileUploadReducer.files && this.props.FileUploadReducer.files.length > 0) {
-            return this.props.FileUploadReducer.files.map(function(file, index) {
+        if (this.props.FileUploadReducer[this.componentId] && this.props.FileUploadReducer[this.componentId].files && this.props.FileUploadReducer[this.componentId].files.length > 0) {
+            return this.props.FileUploadReducer[this.componentId].files.map(function(file, index) {
                 return (
                     <li className="file-upload-list-item">
                         <DocumentUploadListItem key={index} componentId={file.id} file={file.file} isUploaded={file.isUploaded} uploadedDate={file.uploadedDate} />

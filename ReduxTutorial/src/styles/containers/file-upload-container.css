@@ -85,12 +85,12 @@
 .start-upload-icon-last {
     width: 0;
     height: 0;
-    border-left: 5.6px solid transparent;
-    border-right: 5.6px solid transparent;
-    border-bottom: 5px solid white;
+    border-left: 5.8px solid transparent;
+    border-right: 5.8px solid transparent;
+    border-bottom: 8px solid white;
     position: absolute;
     left: 0;
-    top: 3px;
+    top: 0;
 }
 
 .file-upload-button-upload:hover .start-upload-icon-after,
