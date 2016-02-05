@@ -8,12 +8,14 @@ export default function FileUploadReducer(state={}, action={}) {
     switch (action.type) {
         case actions.ATTACH_FILE:
             let newAction = Object.assign({}, action);
-            delete newAction.type;
+            //delete newAction.type;
             newState = Object.assign({}, state);
             if (!newState.files) {
                 newState.files = [];
             }
-            newState.files.push(newAction);
+            for (let i = 0; i < newAction.files.length; i++) {
+                newState.files.push(newAction.files[i]);
+            }
             return newState;
         case actions.UPLOAD_FILE:
             newState = Object.assign({}, state);

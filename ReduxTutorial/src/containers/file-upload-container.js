@@ -18,7 +18,7 @@ class FileUploadContainer extends React.Component {
         let input = e.target;
         let files = input.files;
 
-        this.props.dispatch(attachFile(files[0], this.componentId));
+        this.props.dispatch(attachFile(files, this.componentId));
         input.value = '';
         this.fileAttachLabel.focus();
     }
