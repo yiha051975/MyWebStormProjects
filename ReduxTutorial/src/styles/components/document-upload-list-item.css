@@ -1,0 +1,9 @@
+.document-upload-list-item-container {
+    display: inline-block;
+    width: 25%;
+    vertical-align: top;
+}
+
+.document-upload-list-item-text-container {
+    line-height: 1.42857143;
+}

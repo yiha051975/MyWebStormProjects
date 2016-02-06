@@ -60,37 +60,42 @@
     width: 12px;
 }
 
-.start-upload-icon {
-    background: white;
-    width: 15px;
-    height: 15px;
-    display: inline-block;
-    border-radius: 50%;
-    top: 2px;
-    position: relative;
+.start-upload-icon,
+.cancel-upload-icon {
     margin-right: 5px;
+    font-size: 2em;
+    display: inline-block;
+    width: 0.4em;
+    height: 0.4em;
+    border: 0.1em solid white;
+    position: relative;
+    border-radius: 0.35em;
+    top: 2.5px;
 }
 
-.start-upload-icon-after {
-    background: #428bca;
-    width: 11px;
-    height: 11px;
-    display: inline-block;
-    border-radius: 50%;
-    top: 2px;
-    left: 2px;
-    position: absolute;
+.cancel-upload-icon-after {
+    background-color: #F0AD4E;
 }
 
 .start-upload-icon-last {
     width: 0;
     height: 0;
-    border-left: 5.8px solid transparent;
-    border-right: 5.8px solid transparent;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
     border-bottom: 8px solid white;
     position: absolute;
-    left: 0;
-    top: 0;
+    left: 1px;
+    top: 0.5px;
+}
+
+.cancel-upload-icon-last {
+    background-color: white;
+    position: absolute;
+    width: 3px;
+    height: 13px;
+    left: 4px;
+    bottom: -1px;
+    transform: rotate(45deg);
 }
 
 .file-upload-button-upload:hover .start-upload-icon-after,
@@ -125,12 +130,35 @@
     border-color: #285e8e;
 }
 
+.file-upload-button-cancel {
+    color: #FFF;
+    background-color: #F0AD4E;
+    border-color: #EEA236;
+}
+
+.file-upload-button-cancel:hover,
+.file-upload-button-cancel:active,
+.file-upload-button-cancel:focus {
+    background-color: #EC971F;
+    border-color: #D58512
+}
+
+.file-upload-button-cancel:hover .cancel-upload-icon-after {
+    background-color: #EC971F;
+}
+
 .file-upload-unordered-list {
     padding: 0;
 }
 
 .file-upload-list-item {
     list-style: none;
+    padding: 8px;
+    border-top: 1px solid #DDD;
+}
+
+.file-upload-list-item:nth-child(odd) {
+    background-color: #F9F9F9;
 }
 
 .hide {

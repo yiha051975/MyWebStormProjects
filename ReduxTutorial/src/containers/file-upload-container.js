@@ -80,9 +80,7 @@ class FileUploadContainer extends React.Component {
                     <div className="file-upload-button-container">
                         <button className="file-upload-button file-upload-button-upload">
                             <span className="start-upload-icon" role="presentation">
-                                <span className="start-upload-icon-after">
-                                    <span className="start-upload-icon-last"></span>
-                                </span>
+                                <span className="start-upload-icon-last"></span>
                             </span>
                             <span>Start upload</span>
                             <span className="accessibility-hidden">Click to upload all files</span>
