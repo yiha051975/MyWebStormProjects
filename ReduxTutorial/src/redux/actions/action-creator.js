@@ -34,6 +34,14 @@ export function uploadFiles(files, containerId) {
     return {
         type: actionTypes.UPLOAD_FILE,
         files: files,
-        containerId: containerId
+        parentId: containerId
     }
+}
+
+export function removeFile(file, containerId) {
+    return {
+        type: actionTypes.REMOVE_FILE,
+        parentId: containerId,
+        file: file
+    };
 }

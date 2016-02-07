@@ -13,7 +13,7 @@ export default class DocumentUploadListItem extends React.Component {
     }
 
     displayPreviewPic() {
-        if (this.props.isUploaded) {
+        if (this.props.file.isUploaded) {
             // will code later
             return undefined;
         } else {
@@ -26,74 +26,104 @@ export default class DocumentUploadListItem extends React.Component {
     }
 
     displayFileName() {
-        if (this.props.isUploaded) {
-            return (<a href={this.props.link} target="_blank" className="file-uploaded-link" ref={(linkNode) => this.link = linkNode}>{this.props.file.name}</a>)
+        if (this.props.file.isUploaded) {
+            return (<a href={this.props.file.link} target="_blank" className="file-uploaded-link" ref={(linkNode) => this.link = linkNode}>{this.props.file.file.name}</a>);
         } else {
-            return (<div className="document-upload-list-item-container document-upload-list-item-text-container file-name">{this.props.file.name}</div>)
+            return (
+                <div className="document-upload-list-item-container document-upload-list-item-text-container file-name-container">
+                    <div className="file-name" title={this.props.file.file.name}>{this.props.file.file.name}</div>
+                    {this.displayUploadedDate()}
+                </div>
+            );
         }
     }
 
     displayUploadedDate() {
-        if (this.props.isUploaded && this.props.uploadedDate) {
+        if (this.props.file.isUploaded && this.props.file.uploadedDate) {
             return (<div>{this.props.uploadedDate}</div>);
         } else {
             return undefined;
         }
     }
 
+    displayFileSizeAndProgressbar() {
+        return (
+            <div className="document-upload-list-item-container document-upload-list-item-text-container file-upload-size-progress">
+                <div>{formatBytes(this.props.file.file.size, 2)}</div>
+                <div className="file-upload-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                    <div className="file-upload-progress-bar"></div>
+                </div>
+            </div>
+        );
+    }
+
+    displaySingleFileOperations() {
+        if (this.props.file.isUploaded) {
+            return undefined;
+        } else {
+            return (
+                <div className="document-upload-list-item-container file-upload-function-bar">
+                    <div className="file-upload-button-container">
+                        <button className="file-upload-button file-upload-button-upload">
+                                    <span className="start-upload-icon">
+                                        <span className="start-upload-icon-last"></span>
+                                    </span>
+                            <span>Start</span>
+                            <span
+                                className="accessibility-hidden">Click here to upload {this.props.file.file.name}</span>
+                        </button>
+                    </div>
+                    <div className="file-upload-button-container">
+                        <button className="file-upload-button file-upload-button-cancel" onClick={this.cancelFile.bind(this)}>
+                                    <span className="cancel-upload-icon">
+                                        <span className="cancel-upload-icon-last"></span>
+                                    </span>
+                            <span>Cancel</span>
+                            <span className="accessibility-hidden">Click here to remove {this.props.file.file.name} from upload queue</span>
+                        </button>
+                    </div>
+                </div>
+            );
+        }
+    }
+
+    cancelFile() {
+        let instance = this;
+        instance.listItem.classList.remove('in');
+        let timeout;
+        timeout = setTimeout(function () {
+            instance.props.removeFile(instance.props.file);
+            clearTimeout(timeout);
+        }, 150);
+    }
+
+    componentDidUpdate() {
+        createPreviewPicForFile.call(this);
+    }
+
     componentDidMount() {
-        let imgUrl = URL.createObjectURL(this.props.file);
-        let ctx = this.canvas.getContext('2d');
-        let img = new Image;
-        img.onload = (function() {
-            let shrinkedWidth = calculateImageWidth(img);
-            this.canvas.width = shrinkedWidth;
-            ctx.drawImage(img, 0, 0, shrinkedWidth, 60);
-            URL.revokeObjectURL(imgUrl);
-        }).bind(this);
-        img.src = imgUrl;
+        createPreviewPicForFile.call(this);
     }
 
     render() {
         return (
-            <div>
-                <div className="file-upload-link-container">
-                    {this.displayPreviewPic()}
-                    {this.displayFileName()}
-                    {this.displayUploadedDate()}
-                    <div className="document-upload-list-item-container document-upload-list-item-text-container file-upload-size-progress">
-                        <div>{formatBytes(this.props.file.size, 2)}</div>
-                    </div>
-                    <div className="document-upload-list-item-container file-upload-function-bar">
-                        <div className="file-upload-button-container">
-                            <button className="file-upload-button file-upload-button-upload">
-                                <span className="start-upload-icon">
-                                    <span className="start-upload-icon-last"></span>
-                                </span>
-                                <span>Start</span>
-                                <span className="accessibility-hidden">Click here to upload {this.props.file.name}</span>
-                            </button>
-                        </div>
-                        <div className="file-upload-button-container">
-                            <button className="file-upload-button file-upload-button-cancel">
-                                <span className="cancel-upload-icon">
-                                    <span className="cancel-upload-icon-last"></span>
-                                </span>
-                                <span>Cancel</span>
-                                <span className="accessibility-hidden">Click here to remove {this.props.file.name} from upload queue</span>
-                            </button>
-                        </div>
+            <li className="file-upload-list-item fade" ref={listItem => this.listItem = listItem}>
+                <div>
+                    <div className="file-upload-link-container">
+                        {this.displayPreviewPic()}
+                        {this.displayFileName()}
+                        {this.displayFileSizeAndProgressbar()}
+                        {this.displaySingleFileOperations()}
                     </div>
                 </div>
-            </div>
+            </li>
         );
     }
 }
 
 DocumentUploadListItem.propTypes = {
-    componentId: React.PropTypes.string.isRequired,
-    isUploaded: React.PropTypes.bool.isRequired,
-    file: React.PropTypes.object.isRequired
+    file: React.PropTypes.object.isRequired,
+    removeFile: React.PropTypes.func.isRequired
 };
 
 const formatBytes = function(bytes,decimals) {
@@ -109,4 +139,35 @@ const calculateImageWidth = function(img) {
     let shrinkRatio = 60 / img.height;
 
     return img.width * shrinkRatio;
+};
+
+const createPreviewPicForFile = function() {
+    let imgUrl = URL.createObjectURL(this.props.file.file);
+    let ctx = this.canvas.getContext('2d');
+    let img = new Image;
+    img.onload = (function() {
+        let shrinkedWidth = calculateImageWidth(img);
+        this.canvas.width = shrinkedWidth;
+        ctx.drawImage(img, 0, 0, shrinkedWidth, 60);
+        URL.revokeObjectURL(imgUrl);
+
+        fadein(this.listItem);
+    }).bind(this);
+    img.src = imgUrl;
+};
+
+const fadein = function(listItem) {
+    if (listItem) {
+        let showItem = true;
+        for (let index in listItem.classList) {
+            if (listItem.classList[index] === 'in') {
+                showItem = false;
+                break;
+            }
+        }
+
+        if (showItem === true) {
+            listItem.classList.add('in');
+        }
+    }
 };

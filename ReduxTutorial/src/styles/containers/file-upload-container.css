@@ -161,6 +161,15 @@
     background-color: #F9F9F9;
 }
 
+.fade {
+    opacity: 0;
+    transition: opacity .15s linear;
+}
+
+.fade.in {
+    opacity: 1;
+}
+
 .hide {
     display: none;
 }
