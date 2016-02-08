@@ -4,7 +4,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import guid from '../guid/guid.js';
-import {attachFile, uploadFiles, removeFile, removeAll} from '../redux/actions/action-creator.js';
+import {attachFile, uploadFile, removeFile, removeAll} from '../redux/actions/action-creator.js';
 import DocumentUploadListItem from '../components/document-upload/document-upload-list-item.js';
 import '../styles/containers/file-upload-container.css';
 
@@ -28,12 +28,16 @@ class FileUploadContainer extends React.Component {
         this.props.dispatch(removeFile(file, this.props.componentId))
     }
 
+    uploadFile(documentUploadListItem) {
+        this.props.dispatch(uploadFile(documentUploadListItem.props.file, this.props.componentId, documentUploadListItem.progressBar))
+    }
+
     documentUploadListItemHandle() {
         var instance = this;
         if (this.props.files && this.props.files.length > 0) {
             return this.props.files.map(function(file, index) {
                 return (
-                    <DocumentUploadListItem key={index} file={file} removeFile={instance.fileRemove.bind(instance)} ref={file.id} />
+                    <DocumentUploadListItem key={index} file={file} removeFile={instance.fileRemove.bind(instance)} ref={file.id} uploadFile={instance.uploadFile.bind(instance)} />
                 );
             });
         } else {

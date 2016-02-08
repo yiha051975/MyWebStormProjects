@@ -51,7 +51,7 @@ export default class DocumentUploadListItem extends React.Component {
             <div className="document-upload-list-item-container document-upload-list-item-text-container file-upload-size-progress">
                 <div>{formatBytes(this.props.file.file.size, 2)}</div>
                 <div className="file-upload-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                    <div className="file-upload-progress-bar"></div>
+                    <div className="file-upload-progress-bar" ref={(progressBar) => this.progressBar = progressBar}></div>
                 </div>
             </div>
         );
@@ -64,7 +64,7 @@ export default class DocumentUploadListItem extends React.Component {
             return (
                 <div className="document-upload-list-item-container file-upload-function-bar">
                     <div className="file-upload-button-container">
-                        <button className="file-upload-button file-upload-button-upload">
+                        <button className="file-upload-button file-upload-button-upload" onClick={() => this.props.uploadFile(this)}>
                                     <span className="start-upload-icon">
                                         <span className="start-upload-icon-last"></span>
                                     </span>
@@ -123,7 +123,8 @@ export default class DocumentUploadListItem extends React.Component {
 
 DocumentUploadListItem.propTypes = {
     file: React.PropTypes.object.isRequired,
-    removeFile: React.PropTypes.func.isRequired
+    removeFile: React.PropTypes.func.isRequired,
+    uploadFile: React.PropTypes.func.isRequired
 };
 
 const formatBytes = function(bytes,decimals) {

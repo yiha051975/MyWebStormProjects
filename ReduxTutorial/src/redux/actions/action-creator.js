@@ -30,10 +30,10 @@ export function attachFile(files, parentId) {
     return returnFiles;
 }
 
-export function uploadFiles(files, containerId) {
+export function uploadFile(file, containerId, progressBar) {
     return {
         type: actionTypes.UPLOAD_FILE,
-        files: files,
+        file: Object.assign({}, file, {progressBar: progressBar}),
         parentId: containerId
     }
 }
