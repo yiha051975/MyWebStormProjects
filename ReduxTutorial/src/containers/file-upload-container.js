@@ -4,7 +4,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import guid from '../guid/guid.js';
-import {attachFile, uploadFiles, removeFile} from '../redux/actions/action-creator.js';
+import {attachFile, uploadFiles, removeFile, removeAll} from '../redux/actions/action-creator.js';
 import DocumentUploadListItem from '../components/document-upload/document-upload-list-item.js';
 import '../styles/containers/file-upload-container.css';
 
@@ -33,7 +33,7 @@ class FileUploadContainer extends React.Component {
         if (this.props.files && this.props.files.length > 0) {
             return this.props.files.map(function(file, index) {
                 return (
-                    <DocumentUploadListItem key={index} file={file} removeFile={instance.fileRemove.bind(instance)} />
+                    <DocumentUploadListItem key={index} file={file} removeFile={instance.fileRemove.bind(instance)} ref={file.id} />
                 );
             });
         } else {
@@ -61,6 +61,19 @@ class FileUploadContainer extends React.Component {
                             </span>
                             <span>Start upload</span>
                             <span className="accessibility-hidden">Click to upload all files</span>
+                        </button>
+                    </div>
+                    <div className="file-upload-button-container">
+                        <button className="file-upload-button file-upload-button-remove-all" onClick={removeAllFile.bind(this)}>
+                            <span className="file-upload-trash-icon" role="presentation">
+                                <span className="trash-lid"></span>
+                                <span className="trash-container"></span>
+                                <span className="trash-line-1"></span>
+                                <span className="trash-line-2"></span>
+                                <span className="trash-line-3"></span>
+                            </span>
+                            <span>Remove all</span>
+                            <span className="accessibility-hidden">Click to remove all files</span>
                         </button>
                     </div>
                 </div>
@@ -92,6 +105,20 @@ const findFocusableElement = function(node) {
     }
 
     return returnNode;
+};
+
+const removeAllFile = function() {
+    var instance = this;
+    for (let key in this.refs) {
+        if (!this.refs[key].props.file.isUploaded) {
+            this.refs[key].listItem.classList.remove('in');
+        }
+    }
+
+    let timeout = setTimeout(function() {
+        instance.props.dispatch(removeAll(instance.props.componentId));
+        clearTimeout(timeout);
+    }, 150);
 };
 
 function mapStateToProps(state, props) {

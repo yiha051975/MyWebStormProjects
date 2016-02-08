@@ -45,3 +45,10 @@ export function removeFile(file, containerId) {
         file: file
     };
 }
+
+export function removeAll(containerId) {
+    return {
+        type: actionTypes.REMOVE_ALL,
+        parentId: containerId
+    }
+}

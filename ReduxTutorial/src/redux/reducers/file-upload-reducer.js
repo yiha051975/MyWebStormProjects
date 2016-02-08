@@ -42,6 +42,18 @@ export default function FileUploadReducer(state={}, action={}) {
             newState[action.parentId].files.splice(index, 1);
 
             return newState;
+        case actions.REMOVE_ALL:
+            newState = deepCopy(state);
+
+            if (newState[action.parentId] && newState[action.parentId].files) {
+                for (let y = newState[action.parentId].files.length - 1; y >= 0; y--) {
+                    if (!newState[action.parentId].files[y].isUploaded) {
+                        newState[action.parentId].files.splice(y, 1);
+                    }
+                }
+            }
+
+            return newState;
         default:
             return state;
     }

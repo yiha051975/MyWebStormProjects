@@ -37,6 +37,7 @@
     cursor: pointer;
     border: 1px solid transparent;
     border-radius: 4px;
+    color: #FFF;
 }
 
 .add-files-icon {
@@ -105,7 +106,6 @@
 }
 
 .file-upload-button-success {
-    color: #fff;
     background-color: #5cb85c;
     border-color: #4cae4c;
 }
@@ -118,7 +118,6 @@
 }
 
 .file-upload-button-upload {
-    color: #fff;
     background-color: #428bca;
     border-color: #357ebd;
 }
@@ -131,7 +130,6 @@
 }
 
 .file-upload-button-cancel {
-    color: #FFF;
     background-color: #F0AD4E;
     border-color: #EEA236;
 }
@@ -143,8 +141,108 @@
     border-color: #D58512
 }
 
-.file-upload-button-cancel:hover .cancel-upload-icon-after {
-    background-color: #EC971F;
+.file-upload-button-remove-all {
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+
+.file-upload-button-remove-all:hover,
+.file-upload-button-remove-all:active,
+.file-upload-button-remove-all:focus {
+    background-color: #c9302c;
+    border-color: #ac2925;
+}
+
+.file-upload-trash-icon {
+    width: 15px;
+    height: 15px;
+    position: relative;
+    /*overflow: hidden;*/
+    display: inline-block;
+    margin-right: 5px;
+    top: 3px;
+}
+
+.file-upload-trash-icon .trash-lid {
+    width: 62%;
+    height: 10%;
+    position: absolute;
+    left: 50%;
+    margin-left: -31%;
+    top: 10.5%;
+    background-color: #FFF;
+    border-top-left-radius: 80%;
+    border-top-right-radius: 80%;
+    transform: rotate(-5deg);
+}
+
+.file-upload-trash-icon .trash-lid:after {
+    content: "";
+    width: 26%;
+    height: 100%;
+    position: absolute;
+    left: 50%;
+    margin-left: -13%;
+    margin-top: -10%;
+    background-color: inherit;
+    border-top-left-radius: 30%;
+    border-top-right-radius: 30%;
+    transform: rotate(-1deg);
+}
+
+.file-upload-trash-icon .trash-container {
+    width: 56%;
+    height: 65%;
+    position: absolute;
+    left: 50%;
+    margin-left: -28%;
+    bottom: 10%;
+    background-color: #FFF;
+    border-bottom-left-radius: 15%;
+    border-bottom-right-radius: 15%;
+}
+
+.file-upload-trash-icon .trash-container:after {
+    content: "";
+    width: 110%;
+    height: 12%;
+    position: absolute;
+    left: 50%;
+    margin-left: -55%;
+    top: 0;
+    background-color: inherit;
+    border-bottom-left-radius: 45%;
+    border-bottom-right-radius: 45%;
+}
+
+.file-upload-trash-icon .trash-line-1 {
+    width: 4%;
+    height: 50%;
+    position: absolute;
+    left: 38%;
+    margin-left: -2%;
+    bottom: 17%;
+    background-color: #d9534f;
+}
+
+.file-upload-trash-icon .trash-line-2 {
+    width: 4%;
+    height: 50%;
+    position: absolute;
+    left: 50%;
+    margin-left: -2%;
+    bottom: 17%;
+    background-color: #d9534f;
+}
+
+.file-upload-trash-icon .trash-line-3 {
+    width: 4%;
+    height: 50%;
+    position: absolute;
+    left: 62%;
+    margin-left: -2%;
+    bottom: 17%;
+    background-color: #d9534f;
 }
 
 .file-upload-unordered-list {
