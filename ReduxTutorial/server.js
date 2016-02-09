@@ -5,6 +5,7 @@ var express = require('express');
 var app = express();
 var fs = require("fs");
 var bodyParser = require('body-parser');
+var multiparty = require('multiparty');
 
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
@@ -19,7 +20,12 @@ app.use(function(req, res, next) {
 });
 
 app.post('/api/upload', function(req, res) {
-    console.log(req);
+    var form = new multiparty.Form();
+
+    form.parse(req, function(err, fields, files) {
+        console.log(files);
+        res.end('{"message":"File received"}');
+    });
 });
 
 var server = app.listen(3000, function () {
