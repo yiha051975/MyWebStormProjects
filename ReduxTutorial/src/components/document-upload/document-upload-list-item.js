@@ -88,13 +88,15 @@ export default class DocumentUploadListItem extends React.Component {
     }
 
     cancelFile() {
-        let instance = this;
-        instance.listItem.classList.remove('in');
-        let timeout;
-        timeout = setTimeout(function () {
-            instance.props.removeFile(instance.props.file);
-            clearTimeout(timeout);
-        }, 150);
+        if (!this.props.file.isUploaded && !this.props.file.isUploading) {
+            let instance = this;
+            instance.listItem.classList.remove('in');
+            let timeout;
+            timeout = setTimeout(function () {
+                instance.props.removeFile(instance.props.file);
+                clearTimeout(timeout);
+            }, 150);
+        }
     }
 
     componentDidUpdate() {

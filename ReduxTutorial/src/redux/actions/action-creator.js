@@ -20,6 +20,7 @@ export function attachFile(files, parentId) {
             id: guid(),
             file: files.item(i),
             isUploaded: false,
+            isUploading: false,
             uploadedDate: undefined
         };
 
@@ -52,3 +53,24 @@ export function removeAll(containerId) {
         parentId: containerId
     }
 }
+
+const uploadSingleFile = function(file, containerId, progressBar) {
+    let xhr = new XMLHttpRequest();
+    if (xhr.upload) {
+        xhr.upload.addEventListener("progress", function(e) {
+            var pc = parseInt(e.loaded / e.total * 100);
+            progressBar.style.width = pc + "%";
+            progressBar.parentElement.setAttribute('aria-valuenow', pc.toString());
+        }, false);
+        xhr.onreadystatechange = function(e) {
+            if (xhr.readyState == 4) {
+                console.log(xhr.status == 200 ? "success" : "failure");
+            }
+        };
+
+        xhr.open('POST', '/api/upload', true);
+        let formData = new FormData();
+        formData.append('fileUpload', file.file);
+        xhr.send(formData);
+    }
+};

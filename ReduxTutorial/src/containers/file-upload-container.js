@@ -114,7 +114,7 @@ const findFocusableElement = function(node) {
 const removeAllFile = function() {
     var instance = this;
     for (let key in this.refs) {
-        if (!this.refs[key].props.file.isUploaded) {
+        if (!this.refs[key].props.file.isUploaded && !this.refs[key].props.file.isUploading) {
             this.refs[key].listItem.classList.remove('in');
         }
     }

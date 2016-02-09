@@ -22,30 +22,13 @@ export default function FileUploadReducer(state={}, action={}) {
             return newState;
         case actions.UPLOAD_FILE:
             newState = deepCopy(state);
-            let xhr = new XMLHttpRequest();
-            if (xhr.upload) {
-                xhr.upload.addEventListener("progress", function(e) {
-                    var pc = parseInt(e.loaded / e.total * 100);
-                    action.file.progressBar.style.width = pc + "%";
-                    action.file.progressBar.parentElement.setAttribute('aria-valuenow', pc.toString());
-                }, false);
-                xhr.onreadystatechange = function(e) {
-                    if (xhr.readyState == 4) {
-                        console.log(xhr.status == 200 ? "success" : "failure");
-                    }
-                };
 
-                xhr.open('POST', '/api/upload', true);
-                let formData = new FormData();
-                formData.append('fileUpload', action.file.file);
-                xhr.send(formData);
-            }
             return newState;
         case actions.UPLOAD_ALL:
             newState = deepCopy(state);
 
             for (let i = 0; i < newState.files.length; i++) {
-                if (!newState.files[i].isUploaded) {
+                if (!newState.files[i].isUploaded && !newState.files[i].isUploading) {
                     let formData = new FormData();
                     formData.append('fileUpload', newState.files[i].file);
                     console.log(newState.files[i].file);
