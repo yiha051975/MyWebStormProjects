@@ -126,8 +126,8 @@ const removeAllFile = function() {
 };
 
 function mapStateToProps(state, props) {
-    if (state.FileUploadReducer[props.componentId]) {
-        return state.FileUploadReducer[props.componentId];
+    if (state.FileUploadReducer.get(props.componentId)) {
+        return state.FileUploadReducer.get(props.componentId).toObject();
     } else {
         return {};
     }

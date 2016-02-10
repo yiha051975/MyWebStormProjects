@@ -13,21 +13,47 @@ export function toggleButton(isToggleOn, containerId) {
 }
 
 export function attachFile(files, parentId) {
-    let returnFiles = {};
-    returnFiles.files = [];
-    for (var i = 0; i < files.length; i++) {
-        let file = {
-            id: guid(),
-            file: files.item(i),
-            isUploaded: false,
-            isUploading: false,
-            uploadedDate: undefined
-        };
+    let returnFiles = {
+        type: actionTypes.ATTACH_FILE,
+        payload: {
+            parentId: parentId,
+            files: (function() {
+                let mappedFiles = [];
 
-        returnFiles.files.push(file);
-    }
-    returnFiles.parentId = parentId;
-    returnFiles.type = actionTypes.ATTACH_FILE;
+                for (var i = 0; i < files.length; i++) {
+                    let file = {
+                        id: guid(),
+                        file: files.item(i),
+                        isUploaded: false,
+                        isUploading: false,
+                        uploadedDate: undefined
+                    };
+
+                    mappedFiles.push(file);
+                }
+
+                return mappedFiles;
+            }())
+        },
+        error: false,
+        meta: {}
+    };
+    //returnFiles.type =
+    //returnFiles.files = [];
+    //for (var i = 0; i < files.length; i++) {
+    //    let file = {
+    //        id: guid(),
+    //        file: files.item(i),
+    //        isUploaded: false,
+    //        isUploading: false,
+    //        uploadedDate: undefined
+    //    };
+    //
+    //    returnFiles.files.push(file);
+    //}
+    //returnFiles.parentId = parentId;
+    //returnFiles.type = actionTypes.ATTACH_FILE;
+
     return returnFiles;
 }
 
@@ -42,15 +68,23 @@ export function uploadFile(file, containerId, progressBar) {
 export function removeFile(file, containerId) {
     return {
         type: actionTypes.REMOVE_FILE,
-        parentId: containerId,
-        file: file
+        payload: {
+            parentId: containerId,
+            file: file
+        },
+        error: false,
+        meta: {}
     };
 }
 
 export function removeAll(containerId) {
     return {
         type: actionTypes.REMOVE_ALL,
-        parentId: containerId
+        payload: {
+            parentId: containerId
+        },
+        error: false,
+        meta: {}
     }
 }
 

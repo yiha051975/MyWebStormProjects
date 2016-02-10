@@ -2,30 +2,36 @@
  * Created by Sheldon Lee on 1/30/2016.
  */
 import * as actions from '../actions/action-type';
+import Immutable from 'immutable';
 
-export default function FileUploadReducer(state={}, action={}) {
-    let newState;
+export default function FileUploadReducer(state=Immutable.Map({}), action={}) {
+    //let newState = deepCopy(state);
+    let newState = state;
     switch (action.type) {
         case actions.ATTACH_FILE:
-            newState = deepCopy(state);
 
-            if (!newState[action.parentId]) {
-                newState[action.parentId] = {};
-                if (!newState[action.parentId].files) {
-                    newState[action.parentId].files = [];
-                }
+            if (!newState.get(action.payload.parentId, undefined)) {
+                newState = newState.set(action.payload.parentId, Immutable.Map({}));
+                newState = newState.update(action.payload.parentId, x => x.set('files', Immutable.List([])));
             }
 
-            for (let i = 0; i < action.files.length; i++) {
-                newState[action.parentId].files.push(action.files[i]);
+            //if (!newState[action.payload.parentId]) {
+            //    newState[action.payload.parentId] = {};
+            //    if (!newState[action.payload.parentId].files) {
+            //        newState[action.payload.parentId].files = [];
+            //    }
+            //}
+
+            for (let i = 0; i < action.payload.files.length; i++) {
+                newState = newState.updateIn([action.payload.parentId, 'files'], x => x.set(x.count(), action.payload.files[i]));
+                //newState[action.payload.parentId].files.push(action.payload.files[i]);
             }
+
             return newState;
         case actions.UPLOAD_FILE:
-            newState = deepCopy(state);
 
             return newState;
         case actions.UPLOAD_ALL:
-            newState = deepCopy(state);
 
             for (let i = 0; i < newState.files.length; i++) {
                 if (!newState.files[i].isUploaded && !newState.files[i].isUploading) {
@@ -40,29 +46,42 @@ export default function FileUploadReducer(state={}, action={}) {
 
             return newState;
         case actions.REMOVE_FILE:
-            newState = deepCopy(state);
-
-            let index = newState[action.parentId].files.indexOf(action.file);
-            newState[action.parentId].files.splice(index, 1);
+            newState = newState.updateIn([action.payload.parentId, 'files'], files => files.splice(files.findIndex(file => file.id === action.payload.file.id), 1));
+            //let index = newState[action.parentId].files.indexOf(action.file);
+            //newState[action.parentId].files.splice(index, 1);
 
             return newState;
         case actions.REMOVE_ALL:
-            newState = deepCopy(state);
 
-            if (newState[action.parentId] && newState[action.parentId].files) {
-                for (let y = newState[action.parentId].files.length - 1; y >= 0; y--) {
-                    if (!newState[action.parentId].files[y].isUploaded) {
-                        newState[action.parentId].files.splice(y, 1);
+            if (newState.get(action.payload.parentId, undefined) && newState.getIn([action.payload.parentId, 'files'], undefined)) {
+                for (let y = newState.getIn([action.payload.parentId, 'files'], undefined).count() - 1; y >= 0; y--) {
+                    if (!newState.getIn([action.payload.parentId, 'files'], undefined).get(y).isUploaded && !newState.getIn([action.payload.parentId, 'files'], undefined).get(y).isUploading) {
+                        newState = newState.updateIn([action.payload.parentId, 'files'], files => files.splice(y, 1));
                     }
                 }
             }
 
+            //if (newState[action.parentId] && newState[action.parentId].files) {
+            //    for (let y = newState[action.parentId].files.length - 1; y >= 0; y--) {
+            //        if (!newState[action.parentId].files[y].isUploaded) {
+            //            newState[action.parentId].files.splice(y, 1);
+            //        }
+            //    }
+            //}
+
             return newState;
         default:
-            return state;
+            return newState;
     }
 }
 
+/**
+ * @deprecated
+ *
+ * Use this function to clone the state obj
+ * @param obj
+ * @returns {*}
+ */
 const deepCopy = function(obj) {
     if (obj) {
         if (obj.constructor === Array) {
