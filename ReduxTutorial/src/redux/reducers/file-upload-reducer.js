@@ -23,13 +23,16 @@ export default function FileUploadReducer(state=Immutable.Map({}), action={}) {
             //}
 
             for (let i = 0; i < action.payload.files.length; i++) {
-                newState = newState.updateIn([action.payload.parentId, 'files'], x => x.set(x.count(), action.payload.files[i]));
+                newState = newState.updateIn([action.payload.parentId, 'files'], x => x.set(x.count(), Immutable.Map(action.payload.files[i])));
                 //newState[action.payload.parentId].files.push(action.payload.files[i]);
             }
 
             return newState;
-        case actions.UPLOAD_FILE:
-
+        case actions.UPLOAD_SINGLE_FILE_STARTED:
+            if (newState.getIn([action.payload.parentId, 'files'], undefined)) {
+                action.payload.file.isUploading = true;
+                newState = newState.updateIn([action.payload.parentId, 'files'], files => files.update(files.findIndex(file => file.id === action.payload.file.id), uploadingFile => uploadingFile.update(file => Immutable.Map(action.payload.file))));
+            }
             return newState;
         case actions.UPLOAD_ALL:
 

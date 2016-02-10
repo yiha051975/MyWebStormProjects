@@ -29,15 +29,15 @@ class FileUploadContainer extends React.Component {
     }
 
     uploadFile(documentUploadListItem) {
-        this.props.dispatch(uploadFile(documentUploadListItem.props.file, this.props.componentId, documentUploadListItem.progressBar))
+        this.props.dispatch(uploadFile(documentUploadListItem.props.file, this.props.componentId, documentUploadListItem.progressBar, documentUploadListItem.canvas))
     }
 
     documentUploadListItemHandle() {
         var instance = this;
-        if (this.props.files && this.props.files.length > 0) {
+        if (this.props.files && this.props.files.count() > 0) {
             return this.props.files.map(function(file, index) {
                 return (
-                    <DocumentUploadListItem key={index} file={file} removeFile={instance.fileRemove.bind(instance)} ref={file.id} uploadFile={instance.uploadFile.bind(instance)} />
+                    <DocumentUploadListItem key={index} file={file.toObject()} removeFile={instance.fileRemove.bind(instance)} ref={file.get('id')} uploadFile={instance.uploadFile.bind(instance)} />
                 );
             });
         } else {
@@ -126,11 +126,11 @@ const removeAllFile = function() {
 };
 
 function mapStateToProps(state, props) {
-    if (state.FileUploadReducer.get(props.componentId)) {
-        return state.FileUploadReducer.get(props.componentId).toObject();
-    } else {
-        return {};
-    }
+    //if (state.FileUploadReducer.get(props.componentId)) {
+        return {files: state.FileUploadReducer.getIn([props.componentId, 'files'], undefined)};
+    //} else {
+    //    return {};
+    //}
 }
 
 export default connect(mapStateToProps)(FileUploadContainer)

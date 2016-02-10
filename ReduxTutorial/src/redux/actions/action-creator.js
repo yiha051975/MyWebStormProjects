@@ -38,30 +38,54 @@ export function attachFile(files, parentId) {
         error: false,
         meta: {}
     };
-    //returnFiles.type =
-    //returnFiles.files = [];
-    //for (var i = 0; i < files.length; i++) {
-    //    let file = {
-    //        id: guid(),
-    //        file: files.item(i),
-    //        isUploaded: false,
-    //        isUploading: false,
-    //        uploadedDate: undefined
-    //    };
-    //
-    //    returnFiles.files.push(file);
-    //}
-    //returnFiles.parentId = parentId;
-    //returnFiles.type = actionTypes.ATTACH_FILE;
 
     return returnFiles;
 }
 
-export function uploadFile(file, containerId, progressBar) {
+export function uploadFile(file, containerId, progressBar, canvas) {
+    //return {
+    //    type: actionTypes.UPLOAD_FILE,
+    //    payload: {
+    //        file: Object.assign({}, file, {progressBar: progressBar, canvas: canvas}),
+    //        parentId: containerId
+    //    },
+    //    error: false,
+    //    meta: {}
+    //}
+    return dispatch => {
+        let xhr = new XMLHttpRequest();
+        if (xhr.upload) {
+            dispatch(uploadSingleFileStarted(file, containerId));
+            xhr.upload.addEventListener("progress", function(e) {
+                var pc = parseInt(e.loaded / e.total * 100);
+                progressBar.style.width = pc + "%";
+                progressBar.parentElement.setAttribute('aria-valuenow', pc.toString());
+            }, false);
+            xhr.onreadystatechange = function(e) {
+                if (xhr.readyState == 4) {
+                    console.log(xhr.status == 200 ? "success" : "failure");
+                }
+            };
+
+            xhr.open('POST', '/api/upload', true);
+            let formData = new FormData();
+            let previewFile = convertBlobToFile(convertDataURLToBlob(canvas.toDataURL()), 'preview_' + file.file.name)
+            formData.append('fileUpload', file.file);
+            formData.append('preview', previewFile);
+            xhr.send(formData);
+        }
+    }
+}
+
+export function uploadSingleFileStarted(file, containerId) {
     return {
-        type: actionTypes.UPLOAD_FILE,
-        file: Object.assign({}, file, {progressBar: progressBar}),
-        parentId: containerId
+        type: actionTypes.UPLOAD_SINGLE_FILE_STARTED,
+        payload: {
+            parentId: containerId,
+            file: file
+        },
+        error: false,
+        meta: {}
     }
 }
 
@@ -88,7 +112,7 @@ export function removeAll(containerId) {
     }
 }
 
-const uploadSingleFile = function(file, containerId, progressBar) {
+const uploadSingleFile = function(file, containerId, progressBar, canvas) {
     let xhr = new XMLHttpRequest();
     if (xhr.upload) {
         xhr.upload.addEventListener("progress", function(e) {
@@ -104,7 +128,46 @@ const uploadSingleFile = function(file, containerId, progressBar) {
 
         xhr.open('POST', '/api/upload', true);
         let formData = new FormData();
+        let previewFile = convertBlobToFile(convertDataURLToBlob(canvas.toDataURL()), 'preview_' + file.file.name)
         formData.append('fileUpload', file.file);
+        formData.append('preview', previewFile);
         xhr.send(formData);
     }
+};
+
+/**
+ * Convert Data Url to blob object
+ * @param dataURL
+ * @returns {global.Blob}
+ */
+const convertDataURLToBlob = function(dataURL) {
+// convert base64/URLEncoded data component to raw binary data held in a string
+    var byteString;
+    if (dataURL.split(',')[0].indexOf('base64') >= 0)
+        byteString = atob(dataURL.split(',')[1]);
+    else
+        byteString = unescape(dataURL.split(',')[1]);
+
+    // separate out the mime component
+    var mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
+
+    // write the bytes of the string to a typed array
+    var ia = new Uint8Array(byteString.length);
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+
+    return new Blob([ia], {type:mimeString});
+};
+
+/**
+ * A Blob() is almost a File() - it's just missing the two properties below which we will add
+ * @param blob
+ * @param fileName
+ * @returns {*}
+ */
+const convertBlobToFile = function(blob, fileName) {
+    blob.lastModifiedDate = new Date();
+    blob.name = fileName;
+    return blob;
 };
