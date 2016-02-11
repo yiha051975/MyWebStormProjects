@@ -31,7 +31,7 @@ export default function FileUploadReducer(state=Immutable.Map({}), action={}) {
         case actions.UPLOAD_SINGLE_FILE_STARTED:
             if (newState.getIn([action.payload.parentId, 'files'], undefined)) {
                 action.payload.file.isUploading = true;
-                newState = newState.updateIn([action.payload.parentId, 'files'], files => files.update(files.findIndex(file => file.id === action.payload.file.id), uploadingFile => uploadingFile.update(file => Immutable.Map(action.payload.file))));
+                newState = newState.updateIn([action.payload.parentId, 'files'], files => files.update(files.findIndex(file => file.get('id') === action.payload.file.id), uploadingFile => uploadingFile.update(file => file.update('isUploading', isUploading => !isUploading))));
             }
             return newState;
         case actions.UPLOAD_ALL:
@@ -49,7 +49,7 @@ export default function FileUploadReducer(state=Immutable.Map({}), action={}) {
 
             return newState;
         case actions.REMOVE_FILE:
-            newState = newState.updateIn([action.payload.parentId, 'files'], files => files.splice(files.findIndex(file => file.id === action.payload.file.id), 1));
+            newState = newState.updateIn([action.payload.parentId, 'files'], files => files.splice(files.findIndex(file => file.get('id') === action.payload.file.id), 1));
             //let index = newState[action.parentId].files.indexOf(action.file);
             //newState[action.parentId].files.splice(index, 1);
 
@@ -58,7 +58,7 @@ export default function FileUploadReducer(state=Immutable.Map({}), action={}) {
 
             if (newState.get(action.payload.parentId, undefined) && newState.getIn([action.payload.parentId, 'files'], undefined)) {
                 for (let y = newState.getIn([action.payload.parentId, 'files'], undefined).count() - 1; y >= 0; y--) {
-                    if (!newState.getIn([action.payload.parentId, 'files'], undefined).get(y).isUploaded && !newState.getIn([action.payload.parentId, 'files'], undefined).get(y).isUploading) {
+                    if (!newState.getIn([action.payload.parentId, 'files', y, 'isUploaded'], undefined) && !newState.getIn([action.payload.parentId, 'files', y, 'isUploading'], undefined)) {
                         newState = newState.updateIn([action.payload.parentId, 'files'], files => files.splice(y, 1));
                     }
                 }
