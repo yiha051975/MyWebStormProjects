@@ -54,26 +54,33 @@ export function uploadFile(file, containerId, progressBar, canvas) {
     //}
     return dispatch => {
         let xhr = new XMLHttpRequest();
+        dispatch(uploadSingleFileStarted(file, containerId));
+
         if (xhr.upload) {
-            dispatch(uploadSingleFileStarted(file, containerId));
             xhr.upload.addEventListener("progress", function(e) {
                 var pc = parseInt(e.loaded / e.total * 100);
                 progressBar.style.width = pc + "%";
                 progressBar.parentElement.setAttribute('aria-valuenow', pc.toString());
             }, false);
-            xhr.onreadystatechange = function(e) {
-                if (xhr.readyState == 4) {
-                    console.log(xhr.status == 200 ? "success" : "failure");
-                }
-            };
-
-            xhr.open('POST', '/api/upload', true);
-            let formData = new FormData();
-            let previewFile = convertBlobToFile(convertDataURLToBlob(canvas.toDataURL()), 'preview_' + file.file.name)
-            formData.append('fileUpload', file.file);
-            formData.append('preview', previewFile);
-            xhr.send(formData);
         }
+
+        xhr.onreadystatechange = function(e) {
+            if (xhr.readyState == 4) {
+                if (xhr.status === 200) {
+                    dispatch(uploadSingleFileSuccess(file, containerId));
+                }
+
+                console.log(xhr.status == 200 ? "success" : "failure");
+                console.log(e);
+            }
+        };
+
+        xhr.open('POST', '/api/upload', true);
+        let formData = new FormData();
+        let previewFile = convertBlobToFile(convertDataURLToBlob(canvas.toDataURL()), 'preview_' + file.file.name, file.file.type);
+        formData.append('fileUpload', file.file);
+        formData.append('preview', previewFile);
+        xhr.send(formData);
     }
 }
 
@@ -86,6 +93,32 @@ export function uploadSingleFileStarted(file, containerId) {
         },
         error: false,
         meta: {}
+    }
+}
+
+export function uploadSingleFileSuccess(file, containerId) {
+    return {
+        type: actionTypes.UPLOAD_SINGLE_FILE_SUCCESS,
+        payload: {
+            parentId: containerId,
+            file: file
+        },
+        error: false,
+        meta: {}
+    }
+}
+
+export function uploadSingleFileFailed(file, containerId, errorMessage) {
+    return {
+        type: actionTypes.UPLOAD_SINGLE_FILE_FAILED,
+        payload: {
+            parentId: containerId,
+            file: file
+        },
+        error: true,
+        meta: {
+            message: errorMessage
+        }
     }
 }
 
@@ -146,7 +179,7 @@ const convertDataURLToBlob = function(dataURL) {
     if (dataURL.split(',')[0].indexOf('base64') >= 0)
         byteString = atob(dataURL.split(',')[1]);
     else
-        byteString = unescape(dataURL.split(',')[1]);
+        byteString = decodeURI(dataURL.split(',')[1]);
 
     // separate out the mime component
     var mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
@@ -166,8 +199,7 @@ const convertDataURLToBlob = function(dataURL) {
  * @param fileName
  * @returns {*}
  */
-const convertBlobToFile = function(blob, fileName) {
-    blob.lastModifiedDate = new Date();
-    blob.name = fileName;
-    return blob;
+const convertBlobToFile = function(blob, fileName, type) {
+    let file = new File([blob], fileName, {type: type});
+    return file;
 };
