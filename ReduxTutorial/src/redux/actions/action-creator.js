@@ -67,9 +67,10 @@ export function uploadFile(file, containerId, progressBar, canvas) {
 
         xhr.open('POST', '/api/upload', true);
         let formData = new FormData();
-        let previewFile = convertBlobToFile(convertDataURLToBlob(canvas.toDataURL()), 'preview_' + file.file.name, file.file.type);
+        let previewFile = convertBlobToFile(convertDataURLToBlob(canvas.toDataURL()), file.file.name, file.file.type);
         formData.append('fileUpload', file.file);
         formData.append('preview', previewFile);
+        formData.append('parentId', containerId);
         xhr.send(formData);
     }
 }

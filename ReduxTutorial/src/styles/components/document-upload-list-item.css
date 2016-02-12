@@ -17,11 +17,13 @@
     width: 30%;
 }
 
-.file-name {
+.file-name,
+.file-uploaded-link {
     width: 95%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    display: block;
 }
 
 .file-upload-progress {
