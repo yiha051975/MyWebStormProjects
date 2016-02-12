@@ -115,7 +115,9 @@ const removeAllFile = function() {
     var instance = this;
     for (let key in this.refs) {
         if (!this.refs[key].props.file.isUploaded && !this.refs[key].props.file.isUploading) {
-            this.refs[key].listItem.classList.remove('in');
+            if (this.refs[key].listItem) {
+                this.refs[key].listItem.classList.remove('in');
+            }
         }
     }
 

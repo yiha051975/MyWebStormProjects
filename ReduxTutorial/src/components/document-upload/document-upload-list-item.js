@@ -15,7 +15,11 @@ export default class DocumentUploadListItem extends React.Component {
     displayPreviewPic() {
         if (this.props.file.isUploaded) {
             // will code later
-            return undefined;
+            return (
+                <div className="document-upload-list-item-container file-upload-file-preview">
+                    &nbsp;
+                </div>
+            );
         } else {
             return (
                 <div className="document-upload-list-item-container file-upload-file-preview">
@@ -27,19 +31,23 @@ export default class DocumentUploadListItem extends React.Component {
 
     displayFileName() {
         if (this.props.file.isUploaded) {
-            return (<a href={this.props.file.link} target="_blank" className="file-uploaded-link" ref={(linkNode) => this.link = linkNode}>{this.props.file.file.name}</a>);
+            return (
+                <div className="document-upload-list-item-container document-upload-list-item-text-container file-name-container">
+                    <a href={this.props.file.link} target="_blank" className="file-uploaded-link" ref={(linkNode) => this.link = linkNode}>{this.props.file.file.name}</a>
+                    {this.displayUploadedDate()}
+                </div>
+            );
         } else {
             return (
                 <div className="document-upload-list-item-container document-upload-list-item-text-container file-name-container">
                     <div className="file-name" title={this.props.file.file.name}>{this.props.file.file.name}</div>
-                    {this.displayUploadedDate()}
                 </div>
             );
         }
     }
 
     displayUploadedDate() {
-        if (this.props.file.isUploaded && this.props.file.uploadedDate) {
+        if (this.props.file.isUploaded) {
             return (<div>{this.props.uploadedDate}</div>);
         } else {
             return undefined;
@@ -100,11 +108,19 @@ export default class DocumentUploadListItem extends React.Component {
     }
 
     componentDidUpdate() {
-        createPreviewPicForFile.call(this);
+        if (this.canvas) {
+            createPreviewPicForFile.call(this);
+        }
+
+        if (this.props.file.isUploaded || this.props.file.isUploading) {
+            fadein(this.listItem);
+        }
     }
 
     componentDidMount() {
-        createPreviewPicForFile.call(this);
+        if (this.canvas) {
+            createPreviewPicForFile.call(this);
+        }
     }
 
     render() {

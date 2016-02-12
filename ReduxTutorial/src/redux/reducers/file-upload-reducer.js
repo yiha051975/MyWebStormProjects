@@ -7,6 +7,7 @@ import Immutable from 'immutable';
 export default function FileUploadReducer(state=Immutable.Map({}), action={}) {
     //let newState = deepCopy(state);
     let newState = state;
+    let filesArr;
     switch (action.type) {
         case actions.ATTACH_FILE:
 
@@ -29,13 +30,13 @@ export default function FileUploadReducer(state=Immutable.Map({}), action={}) {
 
             return newState;
         case actions.UPLOAD_SINGLE_FILE_STARTED:
-            let filesArr = newState.getIn([action.payload.parentId, 'files'], undefined);
+            filesArr = newState.getIn([action.payload.parentId, 'files'], undefined);
             if (filesArr) {
                 newState = newState.updateIn([action.payload.parentId, 'files', filesArr.findIndex(file => file.get('id') === action.payload.file.id), 'isUploading'], isUploading => false);
             }
             return newState;
         case actions.UPLOAD_SINGLE_FILE_SUCCESS:
-            let filesArr = newState.getIn([action.payload.parentId, 'files'], undefined);
+            filesArr = newState.getIn([action.payload.parentId, 'files'], undefined);
             if (filesArr) {
                 let index = filesArr.findIndex(file => file.get('id') === action.payload.file.id);
                 newState = newState.updateIn([action.payload.parentId, 'files', index, 'isUploading'], isUploading => false);

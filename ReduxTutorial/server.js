@@ -20,18 +20,20 @@ app.use(function(req, res, next) {
 });
 
 app.post('/api/upload', function(req, res) {
-    var form = new multiparty.Form();
+    var form = new multiparty.Form({uploadDir: './uploads'});
 
     form.parse(req, function(err, fields, files) {
-        console.log(files);
+        if (files.preview) {
+            console.log(files.preview[0]);
+        }
+
+        if (files.fileUpload) {
+            console.log(files.fileUpload[0]);
+        }
         res.end('{"message":"File received"}');
     });
 });
 
 var server = app.listen(3000, function () {
-
-    var host = server.address().address
-    var port = server.address().port
-
     console.log("Example app listening at http://localhost:3000");
 });

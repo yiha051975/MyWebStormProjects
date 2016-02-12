@@ -43,15 +43,6 @@ export function attachFile(files, parentId) {
 }
 
 export function uploadFile(file, containerId, progressBar, canvas) {
-    //return {
-    //    type: actionTypes.UPLOAD_FILE,
-    //    payload: {
-    //        file: Object.assign({}, file, {progressBar: progressBar, canvas: canvas}),
-    //        parentId: containerId
-    //    },
-    //    error: false,
-    //    meta: {}
-    //}
     return dispatch => {
         let xhr = new XMLHttpRequest();
         dispatch(uploadSingleFileStarted(file, containerId));
@@ -67,11 +58,10 @@ export function uploadFile(file, containerId, progressBar, canvas) {
         xhr.onreadystatechange = function(e) {
             if (xhr.readyState == 4) {
                 if (xhr.status === 200) {
+                    console.log(xhr);
+                    console.log(xhr.response);
                     dispatch(uploadSingleFileSuccess(file, containerId));
                 }
-
-                console.log(xhr.status == 200 ? "success" : "failure");
-                console.log(e);
             }
         };
 
