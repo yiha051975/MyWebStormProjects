@@ -41,6 +41,9 @@ export default function FileUploadReducer(state=Immutable.Map({}), action={}) {
                 let index = filesArr.findIndex(file => file.get('id') === action.payload.file.id);
                 newState = newState.updateIn([action.payload.parentId, 'files', index, 'isUploading'], isUploading => false);
                 newState = newState.updateIn([action.payload.parentId, 'files', index, 'isUploaded'], isUploaded => true);
+                newState = newState.setIn([action.payload.parentId, 'files', index, 'uploadedDate'], new Date(action.payload.file.uploadedDate));
+                newState = newState.setIn([action.payload.parentId, 'files', index, 'previewUrl'], action.payload.file.previewUrl);
+                newState = newState.setIn([action.payload.parentId, 'files', index, 'fileUrl'], action.payload.file.fileUrl);
             }
             return newState;
         case actions.UPLOAD_ALL:

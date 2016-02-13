@@ -12,7 +12,7 @@ class FileUploadContainer extends React.Component {
 
     constructor(props) {
         super(props);
-        this.shouldComponentUpdate = require('react/lib/ReactComponentWithPureRenderMixin').shouldComponentUpdate.bind(this);
+        //this.shouldComponentUpdate = require('react/lib/ReactComponentWithPureRenderMixin').shouldComponentUpdate.bind(this);
     }
 
     fileInputChange(e) {

@@ -57,6 +57,7 @@ app.post('/api/upload', function(req, res) {
     form.parse(req, function(err, fields, files) {
         var parentId = fields.parentId[0];
         var fileId = fields.fileId[0];
+        var tempFile;
 
         if (files.preview) {
             filesLocation.previewLocation[fileId] = files.preview[0].path;
@@ -72,7 +73,7 @@ app.post('/api/upload', function(req, res) {
                 storedFiles[parentId].files = [];
             }
 
-            storedFiles[parentId].files.push({
+            tempFile = {
                 id: fileId,
                 file: {
                     name: files.fileUpload[0].originalFilename,
@@ -84,11 +85,13 @@ app.post('/api/upload', function(req, res) {
                 uploadedDate: new Date().getTime(),
                 previewUrl: './api/ViewPreview?fid=' + fileId,
                 fileUrl: './api/ViewFile?fid=' + fileId
-            });
+            };
+
+            storedFiles[parentId].files.push(tempFile);
         }
         fs.writeFileSync('./uploads/files.json', JSON.stringify(storedFiles));
         fs.writeFileSync('./uploads/files-location.json', JSON.stringify(filesLocation));
-        res.end('{"message":"File received"}');
+        res.end(JSON.stringify(tempFile));
     });
 });
 

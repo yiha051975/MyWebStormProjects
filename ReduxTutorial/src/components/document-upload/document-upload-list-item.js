@@ -4,6 +4,21 @@
 import React from 'react';
 import '../../styles/components/document-upload-list-item.css';
 
+let months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+]
+
 export default class DocumentUploadListItem extends React.Component {
 
     constructor(props) {
@@ -17,7 +32,9 @@ export default class DocumentUploadListItem extends React.Component {
             // will code later
             return (
                 <div className="document-upload-list-item-container file-upload-file-preview">
-                    &nbsp;
+                    <a href={this.props.file.fileUrl} target="_blank" className="file-preview-link">
+                        <image src={this.props.file.previewUrl} alt={'preview picture for ' + this.props.file.file.name}></image>
+                    </a>
                 </div>
             );
         } else {
@@ -33,8 +50,10 @@ export default class DocumentUploadListItem extends React.Component {
         if (this.props.file.isUploaded) {
             return (
                 <div className="document-upload-list-item-container document-upload-list-item-text-container file-name-container">
-                    <a href={this.props.file.link} target="_blank" className="file-uploaded-link" ref={(linkNode) => this.link = linkNode}>{this.props.file.file.name}</a>
-                    {this.displayUploadedDate()}
+                    <a href={this.props.file.fileUrl} target="_blank" className="file-uploaded-link" ref={(linkNode) => this.link = linkNode} title={this.props.file.file.name}>
+                        {this.props.file.file.name}
+                        <span className="accessibility-hidden">Click to view file</span>
+                    </a>
                 </div>
             );
         } else {
@@ -46,11 +65,16 @@ export default class DocumentUploadListItem extends React.Component {
         }
     }
 
-    displayUploadedDate() {
+    displayUploadedDateOrProgressBar() {
         if (this.props.file.isUploaded) {
-            return (<div>{this.props.uploadedDate}</div>);
+            return (<div className="file-upload-date">Uploaded on {months[this.props.file.uploadedDate.getMonth()] + ' ' + this.props.file.uploadedDate.getDate() + ', ' + this.props.file.uploadedDate.getFullYear()}</div>);
         } else {
-            return undefined;
+            return (
+                <div className="file-upload-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                    <div className="file-upload-progress-bar"
+                         ref={(progressBar) => this.progressBar = progressBar}></div>
+                </div>
+            );
         }
     }
 
@@ -58,9 +82,7 @@ export default class DocumentUploadListItem extends React.Component {
         return (
             <div className="document-upload-list-item-container document-upload-list-item-text-container file-upload-size-progress">
                 <div>{formatBytes(this.props.file.file.size, 2)}</div>
-                <div className="file-upload-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                    <div className="file-upload-progress-bar" ref={(progressBar) => this.progressBar = progressBar}></div>
-                </div>
+                {this.displayUploadedDateOrProgressBar()}
             </div>
         );
     }

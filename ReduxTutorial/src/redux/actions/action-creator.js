@@ -45,6 +45,7 @@ export function attachFile(files, parentId) {
 export function uploadFile(file, containerId, progressBar, canvas) {
     return dispatch => {
         let xhr = new XMLHttpRequest();
+        let response;
         dispatch(uploadSingleFileStarted(file, containerId));
 
         if (xhr.upload) {
@@ -56,12 +57,16 @@ export function uploadFile(file, containerId, progressBar, canvas) {
         }
 
         xhr.onreadystatechange = function(e) {
-            if (xhr.readyState == 4) {
-                if (xhr.status === 200) {
-                    console.log(xhr);
-                    console.log(xhr.response);
-                    dispatch(uploadSingleFileSuccess(file, containerId));
-                }
+            if (this.readyState == 4 && this.status === 200) {
+                console.log(this);
+                console.log(this.response);
+                response = JSON.parse(this.responseText);
+                var timeout = setTimeout(function() {
+                    dispatch(uploadSingleFileSuccess(response, containerId));
+                    clearTimeout(timeout);
+                }, 1000);
+            } else {
+                // upload failed
             }
         };
 
