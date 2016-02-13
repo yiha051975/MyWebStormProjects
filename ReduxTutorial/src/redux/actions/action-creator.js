@@ -71,6 +71,7 @@ export function uploadFile(file, containerId, progressBar, canvas) {
         formData.append('fileUpload', file.file);
         formData.append('preview', previewFile);
         formData.append('parentId', containerId);
+        formData.append('fileId', file.id);
         xhr.send(formData);
     }
 }

@@ -6,7 +6,7 @@ var app = express();
 var fs = require("fs");
 var bodyParser = require('body-parser');
 var multiparty = require('multiparty');
-var files, filesLocation;
+var storedFiles, filesLocation;
 
 fs.stat('./uploads/', function(err) {
     if (err) {
@@ -15,11 +15,11 @@ fs.stat('./uploads/', function(err) {
             if (!err) {
                 fs.readFile('./uploads/files.json', 'utf8', function (err, data) {
                     if (err) throw err;
-                    files = JSON.parse(data);
+                    storedFiles = JSON.parse(data);
                 });
             }
         });
-        fs.writeFile('./uploads/files-location.json', '{}', function(err, data) {
+        fs.writeFile('./uploads/files-location.json', '{"filesLocation":{},"previewLocation":{}}', function(err, data) {
             if (!err) {
                 fs.readFile('./uploads/files-location.json', 'utf8', function(err, data) {
                     if (err) throw err;
@@ -30,7 +30,7 @@ fs.stat('./uploads/', function(err) {
     } else {
         fs.readFile('./uploads/files.json', 'utf8', function (err, data) {
             if (err) throw err;
-            files = JSON.parse(data);
+            storedFiles = JSON.parse(data);
         });
         fs.readFile('./uploads/files-location.json', 'utf8', function(err, data) {
             if (err) throw err;
@@ -56,15 +56,54 @@ app.post('/api/upload', function(req, res) {
 
     form.parse(req, function(err, fields, files) {
         var parentId = fields.parentId[0];
+        var fileId = fields.fileId[0];
+
         if (files.preview) {
-            console.log(files.preview[0]);
+            filesLocation.previewLocation[fileId] = files.preview[0].path;
         }
 
         if (files.fileUpload) {
-            console.log(files.fileUpload[0]);
+            filesLocation.filesLocation[fileId] = files.fileUpload[0].path;
+            if (!storedFiles[parentId]) {
+                storedFiles[parentId] = {};
+            }
+
+            if (!storedFiles[parentId].files) {
+                storedFiles[parentId].files = [];
+            }
+
+            storedFiles[parentId].files.push({
+                id: fileId,
+                file: {
+                    name: files.fileUpload[0].originalFilename,
+                    type: files.fileUpload[0].headers['content-type'],
+                    size: files.fileUpload[0].size
+                },
+                isUploaded: true,
+                isUploading: false,
+                uploadedDate: new Date().getTime(),
+                previewUrl: './api/ViewPreview?fid=' + fileId,
+                fileUrl: './api/ViewFile?fid=' + fileId
+            });
         }
+        fs.writeFileSync('./uploads/files.json', JSON.stringify(storedFiles));
+        fs.writeFileSync('./uploads/files-location.json', JSON.stringify(filesLocation));
         res.end('{"message":"File received"}');
     });
+});
+
+app.get('/api/ViewPreview', function(req, res) {
+    var fileId = req.query.fid;
+
+    var readStream = fs.createReadStream(filesLocation.previewLocation[fileId]);
+    readStream.pipe(res);
+});
+
+app.get('/api/ViewFile', function(req, res) {
+    var fileId = req.query.fid;
+
+    var readStream = fs.createReadStream(filesLocation.filesLocation[fileId]);
+    readStream.pipe(res);
 });
 
 var server = app.listen(3000, function () {
