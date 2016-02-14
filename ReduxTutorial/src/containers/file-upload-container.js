@@ -12,16 +12,8 @@ class FileUploadContainer extends React.Component {
 
     constructor(props) {
         super(props);
+        this.order = 0;
         //this.shouldComponentUpdate = require('react/lib/ReactComponentWithPureRenderMixin').shouldComponentUpdate.bind(this);
-    }
-
-    fileInputChange(e) {
-        let input = e.target;
-        let files = input.files;
-
-        this.props.dispatch(attachFile(files, this.props.componentId));
-        input.value = '';
-        this.fileAttachLabel.focus();
     }
 
     fileRemove(file) {
@@ -51,7 +43,7 @@ class FileUploadContainer extends React.Component {
                 <div>Files</div>
                 <div className="file-upload-function-bar">
                     <div className="file-upload-button-container">
-                        <input type="file" id={this.props.componentId} className="file-upload-hidden-input accessibility-hidden" aria-hidden="true" onChange={this.fileInputChange.bind(this)} tabIndex="-1" multiple accept="image/*,application/pdf" />
+                        <input type="file" id={this.props.componentId} className="file-upload-hidden-input accessibility-hidden" aria-hidden="true" onChange={fileInputChange.bind(this)} tabIndex="-1" multiple accept="image/*,application/pdf" />
                         <label htmlFor={this.props.componentId} className="file-upload-button file-upload-button-success" ref={(label) => this.fileAttachLabel = label} role="button" tabIndex="0" onKeyPress={buttonOnKeyPress}>
                             <span className="add-files-icon" role="presentation"></span>
                             <span>Add files...</span>
@@ -59,7 +51,7 @@ class FileUploadContainer extends React.Component {
                         </label>
                     </div>
                     <div className="file-upload-button-container">
-                        <button className="file-upload-button file-upload-button-upload">
+                        <button className="file-upload-button file-upload-button-upload" onClick={uploadAllFile.bind(this)}>
                             <span className="start-upload-icon" role="presentation">
                                 <span className="start-upload-icon-last"></span>
                             </span>
@@ -111,6 +103,14 @@ const findFocusableElement = function(node) {
     return returnNode;
 };
 
+const uploadAllFile = function() {
+    for (let key in this.refs) {
+        if (!this.refs[key].props.file.isUploaded && !this.refs[key].props.file.isUploading) {
+            this.props.dispatch(uploadFile(this.refs[key].props.file, this.props.componentId, this.refs[key].progressBar, this.refs[key].canvas))
+        }
+    }
+};
+
 const removeAllFile = function() {
     var instance = this;
     for (let key in this.refs) {
@@ -125,6 +125,15 @@ const removeAllFile = function() {
         instance.props.dispatch(removeAll(instance.props.componentId));
         clearTimeout(timeout);
     }, 150);
+};
+
+const fileInputChange = function(e) {
+    let input = e.target;
+    let files = input.files;
+
+    this.props.dispatch(attachFile(files, this.props.componentId));
+    input.value = '';
+    this.fileAttachLabel.focus();
 };
 
 function mapStateToProps(state, props) {

@@ -4,6 +4,8 @@
 import * as actionTypes from './action-type.js';
 import guid from '../../guid/guid.js';
 
+let order = {};
+
 export function toggleButton(isToggleOn, containerId) {
     return {
         type: actionTypes.TOGGLE_BUTTON,
@@ -13,6 +15,9 @@ export function toggleButton(isToggleOn, containerId) {
 }
 
 export function attachFile(files, parentId) {
+    if (!order.parentId) {
+        order.parentId = 0;
+    }
     let returnFiles = {
         type: actionTypes.ATTACH_FILE,
         payload: {
@@ -26,6 +31,7 @@ export function attachFile(files, parentId) {
                         file: files.item(i),
                         isUploaded: false,
                         isUploading: false,
+                        order: ++order.parentId,
                         uploadedDate: undefined
                     };
 
@@ -77,6 +83,7 @@ export function uploadFile(file, containerId, progressBar, canvas) {
         formData.append('preview', previewFile);
         formData.append('parentId', containerId);
         formData.append('fileId', file.id);
+        formData.append('order', file.order.toString());
         xhr.send(formData);
     }
 }

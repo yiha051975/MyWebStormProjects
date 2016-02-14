@@ -17,7 +17,7 @@ let months = [
     'October',
     'November',
     'December'
-]
+];
 
 export default class DocumentUploadListItem extends React.Component {
 
@@ -33,7 +33,8 @@ export default class DocumentUploadListItem extends React.Component {
             return (
                 <div className="document-upload-list-item-container file-upload-file-preview">
                     <a href={this.props.file.fileUrl} target="_blank" className="file-preview-link">
-                        <image src={this.props.file.previewUrl} alt={'preview picture for ' + this.props.file.file.name}></image>
+                        <image src={this.props.file.previewUrl} alt={'preview picture for ' + this.props.file.file.name} />
+                        <span className="accessibility-hidden">click to view file</span>
                     </a>
                 </div>
             );
@@ -130,17 +131,20 @@ export default class DocumentUploadListItem extends React.Component {
     }
 
     componentDidUpdate() {
-        if (this.canvas) {
+        if (!this.props.file.isUploaded) {
             createPreviewPicForFile.call(this);
         }
 
         if (this.props.file.isUploaded || this.props.file.isUploading) {
-            fadein(this.listItem);
+            let timeout = setTimeout(function() {
+                fadein(this.listItem);
+                clearTimeout(timeout);
+            }, 500);
         }
     }
 
     componentDidMount() {
-        if (this.canvas) {
+        if (!this.props.file.isUploaded) {
             createPreviewPicForFile.call(this);
         }
     }
@@ -187,9 +191,11 @@ const createPreviewPicForFile = function() {
     let ctx = this.canvas.getContext('2d');
     let img = new Image;
     img.onload = (function() {
-        let shrinkedWidth = calculateImageWidth(img);
-        this.canvas.width = shrinkedWidth;
-        ctx.drawImage(img, 0, 0, shrinkedWidth, 60);
+        if (this.canvas) {
+            let shrinkedWidth = calculateImageWidth(img);
+            this.canvas.width = shrinkedWidth;
+            ctx.drawImage(img, 0, 0, shrinkedWidth, 60);
+        }
         URL.revokeObjectURL(imgUrl);
 
         fadein(this.listItem);

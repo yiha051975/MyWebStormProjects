@@ -82,12 +82,15 @@ app.post('/api/upload', function(req, res) {
                 },
                 isUploaded: true,
                 isUploading: false,
+                order: parseInt(fields.order[0]),
                 uploadedDate: new Date().getTime(),
                 previewUrl: './api/ViewPreview?fid=' + fileId,
                 fileUrl: './api/ViewFile?fid=' + fileId
             };
 
             storedFiles[parentId].files.push(tempFile);
+
+            storedFiles[parentId].files.sort((a, b) => parseInt(a.order) - parseInt(b.order));
         }
         fs.writeFileSync('./uploads/files.json', JSON.stringify(storedFiles));
         fs.writeFileSync('./uploads/files-location.json', JSON.stringify(filesLocation));
