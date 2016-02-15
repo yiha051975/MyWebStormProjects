@@ -1,0 +1,60 @@
+.transient-layer {
+    position: fixed;
+    background: black;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.transient-layer.fade {
+    opacity: 0;
+    transition: opacity 0.15s linear;
+}
+
+.transient-layer.fade.in {
+    opacity: 0.75;
+    z-index: 1;
+}
+
+.transient-layer-link {
+    color: white;
+    text-decoration: none;
+    float: right;
+    margin-right: 10px;
+    z-index: 1;
+}
+
+.transient-layer-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.close-symbol {
+    position: absolute;
+    right: 32px;
+    top: 32px;
+    width: 38px;
+    height: 50px;
+    opacity: 0.8;
+}
+.close-symbol:hover {
+    opacity: 1;
+}
+.close-symbol:before, .close-symbol:after {
+    position: absolute;
+    left: 15px;
+    content: ' ';
+    height: 50px;
+    width: 5px;
+    background-color: white;
+}
+.close-symbol:before {
+    transform: rotate(45deg);
+}
+.close-symbol:after {
+    transform: rotate(-45deg);
+}
