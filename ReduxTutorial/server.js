@@ -64,7 +64,7 @@ app.post('/api/upload', function(req, res) {
         }
 
         if (files.fileUpload) {
-            filesLocation.filesLocation[fileId] = files.fileUpload[0].path;
+            filesLocation.filesLocation[fileId] = {filePath: files.fileUpload[0].path};
             if (!storedFiles[parentId]) {
                 storedFiles[parentId] = {};
             }
@@ -88,6 +88,8 @@ app.post('/api/upload', function(req, res) {
                 fileUrl: './api/ViewFile?fid=' + fileId
             };
 
+            filesLocation.filesLocation[fileId].file = tempFile.file;
+
             storedFiles[parentId].files.push(tempFile);
 
             storedFiles[parentId].files.sort((a, b) => parseInt(a.order) - parseInt(b.order));
@@ -107,8 +109,14 @@ app.get('/api/ViewPreview', function(req, res) {
 
 app.get('/api/ViewFile', function(req, res) {
     var fileId = req.query.fid;
+    var download = Boolean(req.query.ad);
 
-    var readStream = fs.createReadStream(filesLocation.filesLocation[fileId]);
+    if (download) {
+        res.setHeader('Content-disposition', 'attachment; filename=' + filesLocation.filesLocation[fileId].file.name);
+        res.setHeader('Content-Type', filesLocation.filesLocation[fileId].file.type);
+    }
+
+    var readStream = fs.createReadStream(filesLocation.filesLocation[fileId].filePath);
     readStream.pipe(res);
 });
 

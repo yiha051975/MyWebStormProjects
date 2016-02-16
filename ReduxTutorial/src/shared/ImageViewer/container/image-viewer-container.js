@@ -15,8 +15,8 @@ class ImageViewerContainer extends React.Component {
             <div className="transient-layer-container">
                 <div className="transient-layer fade" aria-hidden="true"></div>
                 <div className="transient-layer-function-container" aria-hidden="true">
-                    <a href="javascript:;" className="transient-layer-link close-transient-layer-link close-symbol"><span className="accessibility-hidden">Click to quit viewing the document</span></a>
-                    <a href="javascript:;" className="transient-layer-link save-file-link"><span className="accessibility-hidden">Click to save file to your computer</span></a>
+                    <a href="javascript:;" className="transient-layer-link close-transient-layer-link close-symbol" title="Click to leave image viewer"><span className="accessibility-hidden">Click to quit viewing the document</span></a>
+                    <a href="javascript:;" className="transient-layer-link save-file-link download-icon" title="Click to save this image"><span className="download-icon-span"></span><span className="accessibility-hidden">Click to save file to your computer</span></a>
                     <a href="javascript:;" className="transient-layer-link img-rotate-clock-wise-link">><span className="accessibility-hidden">Click to rotate image clock-wise</span></a>
                     <a href="javascript:;" className="transient-layer-link img-rotate-counter--clock-wise-link" >{String.fromCharCode(60)}<span className="accessibility-hidden">Click to rotate image counter-clock-wise</span></a>
                 </div>
@@ -30,3 +30,12 @@ class ImageViewerContainer extends React.Component {
 }
 
 export default ImageViewerContainer;
+//function mapStateToProps(state, props) {
+//    //if (state.FileUploadReducer.get(props.componentId)) {
+//    return state.ImageViewerReducer.getIn([props.componentId, 'files'], undefined);
+//    //} else {
+//    //    return {};
+//    //}
+//}
+//
+//export default connect(mapStateToProps)(ImageViewerContainer)
