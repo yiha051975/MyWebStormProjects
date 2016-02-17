@@ -64,8 +64,6 @@ export function uploadFile(file, containerId, progressBar, canvas) {
 
         xhr.onreadystatechange = function(e) {
             if (this.readyState == 4 && this.status === 200) {
-                console.log(this);
-                console.log(this.response);
                 response = JSON.parse(this.responseText);
                 var timeout = setTimeout(function() {
                     dispatch(uploadSingleFileSuccess(response, containerId));

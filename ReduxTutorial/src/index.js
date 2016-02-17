@@ -16,6 +16,10 @@ import guid from './guid/guid.js';
 //let store = createStore(buttonToggleApp);
 let Store = configureStore();
 
+const generateImageViewer = function() {
+
+};
+
 ReactDOM.render(
     <Provider store={Store}>
         <div className="page-wrapper">
@@ -23,9 +27,6 @@ ReactDOM.render(
                 <h1>Redux Tutorial</h1>
                 <FileUploadContainer componentId={guid()} />
                 <FileUploadContainer componentId={guid()} />
-            </div>
-            <div className="image-viewer-content-container">
-                <ImageViewerContainer />
             </div>
         </div>
     </Provider>,

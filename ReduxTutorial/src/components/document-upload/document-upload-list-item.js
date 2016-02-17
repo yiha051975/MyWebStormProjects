@@ -131,15 +131,15 @@ export default class DocumentUploadListItem extends React.Component {
     }
 
     componentDidUpdate() {
+        var instance = this;
         if (!this.props.file.isUploaded) {
             createPreviewPicForFile.call(this);
         }
 
         if (this.props.file.isUploaded || this.props.file.isUploading) {
-            let timeout = setTimeout(function() {
-                fadein(this.listItem);
-                clearTimeout(timeout);
-            }, 500);
+            setTimeout(function () {
+                fadein(instance.listItem);
+            }, 150);
         }
     }
 

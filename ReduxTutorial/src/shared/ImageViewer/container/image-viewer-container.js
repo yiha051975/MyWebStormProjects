@@ -2,6 +2,7 @@
  * Created by Sheldon Lee on 2/14/2016.
  */
 import React from 'react';
+import {connect} from 'react-redux';
 import '../styles/container/image-viewer-container.css';
 
 class ImageViewerContainer extends React.Component {
@@ -20,22 +21,29 @@ class ImageViewerContainer extends React.Component {
                     <a href="javascript:;" className="transient-layer-link img-rotate-clock-wise-link">><span className="accessibility-hidden">Click to rotate image clock-wise</span></a>
                     <a href="javascript:;" className="transient-layer-link img-rotate-counter--clock-wise-link" >{String.fromCharCode(60)}<span className="accessibility-hidden">Click to rotate image counter-clock-wise</span></a>
                 </div>
-                <div className="transient-layer-content-container">
-                    <img src="test.jpg" alt="Image not available" />
-                </div>
+                {generateImages.call(this)}
             </div>
         );
     }
 
 }
 
-export default ImageViewerContainer;
-//function mapStateToProps(state, props) {
-//    //if (state.FileUploadReducer.get(props.componentId)) {
-//    return state.ImageViewerReducer.getIn([props.componentId, 'files'], undefined);
-//    //} else {
-//    //    return {};
-//    //}
-//}
-//
-//export default connect(mapStateToProps)(ImageViewerContainer)
+const generateImages = function() {
+    if (this.props.files) {
+        return (<div className="transient-layer-content-container">
+            <img src="test.jpg" alt="Image not available"/>
+        </div>);
+    }
+
+    return undefined;
+};
+
+function mapStateToProps(state, props) {
+    //if (state.FileUploadReducer.get(props.componentId)) {
+    return state.ImageViewerReducer.get(props.componentId, undefined);
+    //} else {
+    //    return {};
+    //}
+}
+
+export default connect(mapStateToProps)(ImageViewerContainer)

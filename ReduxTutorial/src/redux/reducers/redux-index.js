@@ -3,11 +3,13 @@
  */
 import buttonToggleReducer from './button-toggle-reducer.js';
 import FileUploadReducer from './file-upload-reducer.js';
+import ImageViewerReducer from '../../shared/ImageViewer/redux/reducers/ImageViewerReducer';
 import { combineReducers } from 'redux';
 
 const buttonToggleApp = combineReducers({
     buttonToggleReducer,
-    FileUploadReducer
+    FileUploadReducer,
+    ImageViewerReducer
 });
 
 export default buttonToggleApp;
