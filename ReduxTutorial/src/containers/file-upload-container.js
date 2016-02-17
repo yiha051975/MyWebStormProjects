@@ -8,6 +8,7 @@ import {attachFile, uploadFile, removeFile, removeAll} from '../redux/actions/ac
 import DocumentUploadListItem from '../components/document-upload/document-upload-list-item.js';
 import '../styles/containers/file-upload-container.css';
 import {createImageViewer} from '../shared/ImageViewer/redux/actions/ImageViewerActionCreator';
+import ImageViewerContainer from '../shared/ImageViewer/container/image-viewer-container';
 
 class FileUploadContainer extends React.Component {
 
@@ -143,7 +144,7 @@ const fileInputChange = function(e) {
 
 function mapStateToProps(state, props) {
     //if (state.FileUploadReducer.get(props.componentId)) {
-    console.log(state);
+    console.log(state.ImageViewerReducer.toObject());
         return {files: state.FileUploadReducer.getIn([props.componentId, 'files'], undefined)};
     //} else {
     //    return {};

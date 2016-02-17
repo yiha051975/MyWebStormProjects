@@ -9,7 +9,7 @@ export default function ImageViewerReducer(state = Immutable.Map({}), action) {
     switch (action.type) {
         case imageViewerActions.CREATE_IMAGE_VIEWER:
             if (!state.get(action.payload.fileUploadId)) {
-                newState.set(action.payload.fileUploadId, Immutable.List(action.payload.files));
+                newState = newState.set(action.payload.fileUploadId, Immutable.List(action.payload.files));
             }
 
             return newState;

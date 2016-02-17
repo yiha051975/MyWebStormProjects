@@ -40,7 +40,7 @@ const generateImages = function() {
 
 function mapStateToProps(state, props) {
     //if (state.FileUploadReducer.get(props.componentId)) {
-    return state.ImageViewerReducer.get(props.componentId, undefined);
+    return state.ImageViewerReducer.toObject();
     //} else {
     //    return {};
     //}
