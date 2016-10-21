@@ -9,27 +9,25 @@ $(function() {
     getCards();
 
     cards.forEach(function(cardArr, i) {
-        cardArr.forEach(function(node) {
-            $(node).velocity({
-                opacity: 1
-            },{
-                duration: 300,
-                delay: i * 75,
-                easing: [.4, 0, .2, 1],
-                queue: false
-            }).velocity({
-                width: 100,
-                height: 100,
-                marginLeft: 50,
-                marginTop: 50,
-                marginRight: 0,
-                marginBottom: 0
-            },{
-                duration: 600,
-                delay: i * 75,
-                easing: [.4, 0, .2, 1],
-                queue: false
-            });
+        $(cardArr).velocity({
+            opacity: 1
+        },{
+            duration: 300,
+            delay: i * 75,
+            easing: [.4, 0, .6, 1],
+            queue: false
+        }).velocity({
+            width: 100,
+            height: 100,
+            marginLeft: 50,
+            marginTop: 50,
+            marginRight: 0,
+            marginBottom: 0
+        },{
+            duration: 600,
+            delay: i * 75,
+            easing: [.4, 0, .2, 1],
+            queue: false
         });
     });
 
