@@ -12,6 +12,7 @@
         enableClickRail: true,
         valueChange: valueChange
     });
+    var cssAnimation;
 
     sliderTest.renderSlider('.slider-test');
 
@@ -30,5 +31,20 @@
     function valueChange(event, newValue) {
         console.log(event);
         console.log(newValue);
+    }
+
+    cssAnimation = document.querySelector('.css-animation');
+
+    if (cssAnimation) {
+        setTimeout(function() {
+            cssAnimation.classList.add('test-animation');
+
+            setTimeout(function() {
+                cssAnimation.classList.remove('test-animation');
+            }, 700);
+        }, 3000);
+        cssAnimation.addEventListener('animationend', function (e) {
+            console.log(e);
+        }, false);
     }
 }());
