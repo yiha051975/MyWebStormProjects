@@ -41,8 +41,8 @@ body {
     transform: scale3d(.7,.7,.7); -webkit-transform: scale3d(.7,.7,.7);
     background: #CCC;
     opacity: 0.45;
-    animation: ripple 1s  forwards;
-    -webkit-animation: ripple 1s forwards;
+    animation: ripple 2s  forwards;
+    -webkit-animation: ripple 2s forwards;
 }
 
 @keyframes ripple {
