@@ -15,13 +15,13 @@ YUI.add('RealEstateUIEvents_js', function(Y) {
     var liabilities = undefined;
     var multipleLiabilitiesContainer = undefined;
     var liabilitiesUnorderedList =	'<div class="pre-qual-checkbox-list-item">' +
-        '<div class="pre-qual-checkbox-container">' +
+        '<div class="pre-qual-checkbox-containers">' +
         '<input class="pre-qual-liability-checkbox" type="checkbox" name="include/exclude liability" id="liabilityCheckBox-{0}" {5}/>' +
         '</div>' +
-        '<div class="pre-qual-checkbox-label-container">' +
+        '<div class="pre-qual-checkbox-label-containers">' +
         '<label class="pre-qual-checkbox-label" for="liabilityCheckBox-{0}">' +
         '<span class="liability-company-name"><strong>{1} (-{2})</strong></span><br />' +
-        '<span class="liability-info-content-container">' +
+        '<span class="liability-info-content-containers">' +
         '<span class="liability-balance">Balance: $<span class="currency">{3}</span></span><br />'+
         '<span class="liability-payment">Payment: $<span class="currency">{4}</span></span>'+
         '</span>' +
@@ -118,7 +118,7 @@ YUI.add('RealEstateUIEvents_js', function(Y) {
 
             params = event.eventParams;
 //			if (this.isOptionContainer) {
-//				container = data.optionContainer;
+//				containers = data.optionContainer;
 //			} else {
             if (data.input) {
                 isRadioOrCheckBox = true;
@@ -1519,9 +1519,9 @@ YUI.add('RealEstateUIEvents_js', function(Y) {
         openSingleLiabilityModalPanel: function(e) {
             var modalNode;
             if (questionVO.currentAddressOwnership === '1') {
-                modalNode = Y.one('#single-liability-modal .modal-container');
+                modalNode = Y.one('#single-liability-modal .modal-containers');
             } else {
-                modalNode = Y.one('#adjust-downpayment-purchase-price-modal .modal-container');
+                modalNode = Y.one('#adjust-downpayment-purchase-price-modal .modal-containers');
             }
 
             if (modalNode) {
@@ -1532,9 +1532,9 @@ YUI.add('RealEstateUIEvents_js', function(Y) {
             var modalNode;
 
             if (liabilities && liabilities.length > 1) {
-                modalNode = Y.one('#multiple-liabilities-modal .modal-container');
+                modalNode = Y.one('#multiple-liabilities-modal .modal-containers');
             } else {
-                modalNode = Y.one('#adjust-downpayment-purchase-price-modal .modal-container');
+                modalNode = Y.one('#adjust-downpayment-purchase-price-modal .modal-containers');
             }
 
             if (modalNode) {
@@ -1561,7 +1561,7 @@ YUI.add('RealEstateUIEvents_js', function(Y) {
                     isDUResponseReceived = true;
                 }
                 if (this.event.eventParams.modalPanelCssSelector) {
-                    modalPanel = Y.one(this.event.eventParams.modalPanelCssSelector + ' .modal-container');
+                    modalPanel = Y.one(this.event.eventParams.modalPanelCssSelector + ' .modal-containers');
                     if (modalPanel) {
                         Y.EventDirector_js.sendCommand('ModalPanel/open', {modalId:modalPanel.get('id')});
                     }
@@ -1817,7 +1817,7 @@ YUI.add('RealEstateUIEvents_js', function(Y) {
                 });
                 break;
             /*case input.inputType.indexOf('CHECKBOX') >= 0:
-             input.container.all('input').some(function(inputNode, index, array) {
+             input.containers.all('input').some(function(inputNode, index, array) {
              if (inputNode.get('checked')) {
              if (isRetrieveSiteCatValue) {
              value = inputNode.getData('data').siteCatValue;
@@ -2231,7 +2231,7 @@ YUI.add('RealEstateUIEvents_js', function(Y) {
                 questionGroup.interstitialAdContainer.addClass('usaa-hidden');
             }
 
-            /*show the label container*/
+            /*show the label containers*/
             questionGroup.realEstateUIQuestionVOList.forEach(function(question, index, array) {
                 question.container.addClass('usaa-hidden');
             });
@@ -2275,7 +2275,7 @@ YUI.add('RealEstateUIEvents_js', function(Y) {
                 questionGroup.interstitialAdContainer.removeClass('usaa-hidden');
             }
 
-            /*show the label container*/
+            /*show the label containers*/
             questionGroup.realEstateUIQuestionVOList.forEach(function(question, index, array) {
                 question.container.removeClass('usaa-hidden');
             });
@@ -2369,7 +2369,7 @@ YUI.add('RealEstateUIEvents_js', function(Y) {
                                             areLiabilitiesRetrieved = true;
 
                                             if (liabilitiesResponse.liabilities && liabilitiesResponse.liabilities.constructor === Array) {
-                                                multipleLiabilitiesContainer = Y.one('#multiple-liabilities-modal-checkboxes-container-emptyContainer');
+                                                multipleLiabilitiesContainer = Y.one('#multiple-liabilities-modal-checkboxes-containers-emptyContainer');
                                                 liabilities = liabilitiesResponse.liabilities;
                                                 if (liabilitiesResponse.liabilities.length > 1) {
                                                     dataObject.hasMultipleLiabilities = true;
@@ -2502,7 +2502,7 @@ YUI.add('RealEstateUIEvents_js', function(Y) {
                                                     totalLoanAmountLabel.set('innerHTML', obj.totalLoanAmount);
                                                 }
                                             }
-                                            preQualifySuccessModal = Y.one('#prequalify-success-modal .modal-container');
+                                            preQualifySuccessModal = Y.one('#prequalify-success-modal .modal-containers');
                                             if (preQualifySuccessModal) {
                                                 if (obj.displayProductName) {
                                                     Y.all('.pre-qualified-product-title').each(function(node, index, array) {
@@ -2518,7 +2518,7 @@ YUI.add('RealEstateUIEvents_js', function(Y) {
                                             }
                                         } else {
                                             /*open fail modal panel*/
-                                            preQualifyFailedModal = Y.one('#prequalify-failed-modal .modal-container');
+                                            preQualifyFailedModal = Y.one('#prequalify-failed-modal .modal-containers');
                                             if (preQualifyFailedModal) {
                                                 Y.EventDirector_js.sendCommand('ModalPanel/open', {modalId:preQualifyFailedModal.get('id')});
                                             }
