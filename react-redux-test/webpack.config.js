@@ -1,6 +1,8 @@
 /**
  * Created by Sheldon Lee on 4/12/2017.
  */
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports = {
     entry: [
         './src/index.js'
@@ -37,5 +39,13 @@ module.exports = {
         historyApiFallback: true,
         contentBase: './public'
     },
-    devtool: "inline-sourcemap"
+    devtool: "inline-sourcemap",
+    plugins: [new HtmlWebpackPlugin({
+        title: 'React-Redux-Test',
+        filename: 'public/test.html',
+        template: __dirname + '/index.ejs',
+        inject: 'body',
+        favicon: 'public/favicon.ico',
+        hash: true
+    })]
 };
