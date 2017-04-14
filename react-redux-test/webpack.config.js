@@ -9,7 +9,7 @@ module.exports = {
     ],
     output: {
         path: __dirname + '/public',
-        publicPath: '',
+        publicPath: '/react-redux-test',
         filename: 'bundle.js'
     },
     module: {
@@ -42,8 +42,8 @@ module.exports = {
     devtool: "inline-sourcemap",
     plugins: [new HtmlWebpackPlugin({
         title: 'React-Redux-Test',
-        filename: 'public/test.html',
-        template: __dirname + '/index.ejs',
+        filename: 'index.html',
+        template: '!!ejs-loader!' + __dirname + '/template.ejs',
         inject: 'body',
         favicon: 'public/favicon.ico',
         hash: true
