@@ -23,7 +23,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "webpack -p",
-    "dev": "webpack-dev-server -d --devtool",
+    "dev": "webpack-dev-server -d",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
