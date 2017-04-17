@@ -36,7 +36,9 @@ module.exports = {
         extensions: ['*','.js', '.jsx']
     },
     devServer: {
-        historyApiFallback: true,
+        historyApiFallback: {
+            index: '/react-redux-test'
+        },
         contentBase: './public'
     },
     devtool: "inline-sourcemap",
