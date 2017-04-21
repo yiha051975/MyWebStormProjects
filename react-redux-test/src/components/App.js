@@ -5,6 +5,7 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import LandingPage from './landing-page';
 import NewPost from './new-post';
 import ErrorPage from './error-page';
+import RouterRedirect from './router-redirect';
 
 class App extends Component {
     render() {
@@ -23,6 +24,7 @@ class App extends Component {
                         <Route path="/form" component={NewPost} />
                         <Route component={ErrorPage} />
                     </Switch>
+                    <RouterRedirect/>
                 </div>
             </Router>
         );

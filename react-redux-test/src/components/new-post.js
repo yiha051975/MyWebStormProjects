@@ -10,13 +10,13 @@ import { connect } from 'react-redux';
 class NewPost extends Component {
     onSubmit(props) {
         console.log(this);
-        this.props.createPost(props)
-            .then(() => {
-                // blog post has been created, navigate user to the index
-                // We navigate by calling this.context.rounter.push with
-                // new path to navigate to.
-                this.context.router.push('/');
-            });
+        this.props.createPost(props, this.props.history);
+            // .then(() => {
+            //     // blog post has been created, navigate user to the index
+            //     // We navigate by calling this.context.rounter.push with
+            //     // new path to navigate to.
+            //     this.context.router.push('/');
+            // });
     }
 
     render() {
