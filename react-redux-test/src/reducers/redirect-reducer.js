@@ -4,8 +4,6 @@
 import {REDIRECT} from '../actions/action-types';
 
 export default function(state={}, action) {
-    console.log('redirect state: ', state);
-    console.log('redirect action: ', action);
     switch (action.type) {
         case REDIRECT:
             return {

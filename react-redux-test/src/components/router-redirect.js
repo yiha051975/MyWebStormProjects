@@ -6,13 +6,13 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 
 class RouterRedirect extends Component {
-    shouldComponentUpdate() {
-        console.log('Router Redirect should Component Update.');
-        return false;
+    componentDidUpdate() {
+        if (this.props.path && this.props.location.pathname !== this.props.path) {
+            this.props.history.push(this.props.path);
+        }
     }
 
     render() {
-        console.log(this.props);
         return null;
     }
 }

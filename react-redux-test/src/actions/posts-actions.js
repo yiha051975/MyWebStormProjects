@@ -3,21 +3,21 @@
  */
 import axios from 'axios';
 import {POST_NEW} from './action-types';
+import {redirect} from './redirect-actions';
 const create_post_url = 'http://localhost:3000/post';
 
 export function createPost(props, history) {
-    console.log(props);console.log(arguments);
     return (dispatch) => {
         axios.post(create_post_url, props).then((response) => {
-                console.log('success on ajax create post: ', response);
-                history.push('/');
+                // history.push('/');
+                dispatch(redirect('/'));
                 return {
                     type: POST_NEW,
                     payload: response
                 }
             }).catch((response) => {
-                console.log('error on ajax create post: ', response);
-                history.push('/');
+                // history.push('/');
+                dispatch(redirect('/'));
                 return {
                     type: POST_NEW,
                     payload: response

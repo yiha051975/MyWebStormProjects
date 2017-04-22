@@ -1,7 +1,7 @@
 /**
  * Created by Sheldon Lee on 4/21/2017.
  */
-import {REDIRECT} from './redirect-actions';
+import {REDIRECT} from './action-types';
 
 export function redirect(path) {
     return {

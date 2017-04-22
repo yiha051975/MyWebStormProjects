@@ -5,11 +5,12 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {Field, reduxForm} from 'redux-form';
 import {createPost} from '../actions/posts-actions';
+import {redirect} from '../actions/redirect-actions';
 import { connect } from 'react-redux';
+import {redirectUtils} from '../utils/redirect-utils';
 
 class NewPost extends Component {
     onSubmit(props) {
-        console.log(this);
         this.props.createPost(props, this.props.history);
             // .then(() => {
             //     // blog post has been created, navigate user to the index
@@ -23,7 +24,7 @@ class NewPost extends Component {
         return (
             <div>
                 <h2>This is Form Page.</h2>
-                <Link to="/">Home</Link>
+                <Link to="/" onClick={(e) => {redirectUtils.call(this, e, '/');}}>Home</Link>
                 <form onSubmit={this.props.handleSubmit(this.onSubmit.bind(this))}>
                     <div>
                         <label>Title</label>
@@ -48,6 +49,6 @@ NewPost = reduxForm({
     form: 'newPost'
 })(NewPost);
 
-NewPost = connect(null, {createPost})(NewPost);
+NewPost = connect(null, {createPost, redirect})(NewPost);
 
 export default NewPost;
