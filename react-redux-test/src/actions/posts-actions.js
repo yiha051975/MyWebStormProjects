@@ -4,20 +4,20 @@
 import axios from 'axios';
 import {POST_NEW} from './action-types';
 import {redirect} from './redirect-actions';
+import {LANDING_PAGE} from '../utils/routes';
+
 const create_post_url = 'http://localhost:3000/post';
 
-export function createPost(props, history) {
+export function createPost(props) {
     return (dispatch) => {
         axios.post(create_post_url, props).then((response) => {
-                // history.push('/');
-                dispatch(redirect('/'));
+                dispatch(redirect(LANDING_PAGE));
                 return {
                     type: POST_NEW,
                     payload: response
                 }
             }).catch((response) => {
-                // history.push('/');
-                dispatch(redirect('/'));
+                dispatch(redirect(LANDING_PAGE));
                 return {
                     type: POST_NEW,
                     payload: response

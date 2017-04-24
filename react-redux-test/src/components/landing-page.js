@@ -6,13 +6,14 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {redirect} from '../actions/redirect-actions';
 import {redirectUtils} from '../utils/redirect-utils';
+import {FORM} from '../utils/routes';
 
 class LandingPage extends Component {
     render() {
         return (
             <div>
                 <h2>This is landing page.</h2>
-                <Link to="/form" onClick={(e) => {redirectUtils.call(this, e, '/form');}}>Create new Post</Link>
+                <Link to={FORM} onClick={(e) => {redirectUtils.call(this, e, FORM);}}>Create new Post</Link>
             </div>
         );
     }

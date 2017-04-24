@@ -6,6 +6,7 @@ import LandingPage from './landing-page';
 import NewPost from './new-post';
 import ErrorPage from './error-page';
 import RouterRedirect from './router-redirect';
+import {LANDING_PAGE, FORM} from '../utils/routes';
 
 class App extends Component {
     render() {
@@ -20,8 +21,8 @@ class App extends Component {
                         To get started, edit <code>src/App.js</code> and save to reload.
                     </p>
                     <Switch>
-                        <Route exact path="/" component={LandingPage} />
-                        <Route path="/form" component={NewPost} />
+                        <Route exact path={LANDING_PAGE} component={LandingPage} />
+                        <Route path={FORM} component={NewPost} />
                         <Route component={ErrorPage} />
                     </Switch>
                     <RouterRedirect/>
