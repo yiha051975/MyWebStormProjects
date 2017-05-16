@@ -4,12 +4,12 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
 import { createPost } from '../actions/index';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 
 class PostsNew extends Component {
-    static contextTypes = {
-        router: PropTypes.object
-    };
+    // static contextTypes = {
+    //     router: PropTypes.object
+    // };
 
     onSubmit(props) {
         this.props.createPost(props)
@@ -17,7 +17,8 @@ class PostsNew extends Component {
                 // blog post has been created, navigate user to the index
                 // We navigate by calling this.context.rounter.push with
                 // new path to navigate to.
-                this.context.router.push('/');
+                // this.context.router.push('/');
+                browserHistory.push('/');
             });
     }
 
