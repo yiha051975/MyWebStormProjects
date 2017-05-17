@@ -7,8 +7,8 @@ import {Field, reduxForm} from 'redux-form';
 import {createPost} from '../actions/posts-actions';
 import {redirect} from '../actions/redirect-actions';
 import { connect } from 'react-redux';
-import {redirectUtils} from '../utils/redirect-utils';
 import {LANDING_PAGE} from '../utils/routes';
+import {browserHistory} from 'react-router';
 
 const required = function(value) {
     if (!value) {
@@ -19,13 +19,7 @@ const required = function(value) {
 class NewPost extends Component {
     onSubmit(props) {
         console.log('form data: ', props);
-        this.props.createPost(props);
-            // .then(() => {
-            //     // blog post has been created, navigate user to the index
-            //     // We navigate by calling this.context.rounter.push with
-            //     // new path to navigate to.
-            //     this.context.router.push('/');
-            // });
+        this.props.createPost(props, () => browserHistory.push(LANDING_PAGE));
     }
 
     renderInputField({questionText, type, input, fieldId, meta: {touched, error, warning}}) {
@@ -64,7 +58,7 @@ class NewPost extends Component {
         return (
             <div>
                 <h2>This is Form Page.</h2>
-                <Link to={LANDING_PAGE} onClick={(e) => {redirectUtils.call(this, e, LANDING_PAGE);}}>Home</Link>
+                <Link to={LANDING_PAGE}>Home</Link>
                 <form onSubmit={this.props.handleSubmit(this.onSubmit.bind(this))}>
                     <Field name="title" component={this.renderInputField} type="text" questionText="Title" fieldId="title" validate={[required]} />
                     <Field name="description" component={this.renderInputField} type="text" questionText="Description" fieldId="description" validate={required} />
@@ -74,14 +68,6 @@ class NewPost extends Component {
             </div>
         );
     }
-}
-
-function getFieldName(field) {
-    if (!field) {
-        return;
-    }
-
-    return field.props.name + 'Field';
 }
 
 NewPost = reduxForm({

@@ -3,21 +3,24 @@
  */
 import axios from 'axios';
 import {POST_NEW} from './action-types';
-import {redirect} from './redirect-actions';
 import {LANDING_PAGE} from '../utils/routes';
 
 const create_post_url = 'http://localhost:3000/post';
 
-export function createPost(props) {
+export function createPost(props, successCallback, failedCallback) {
     return (dispatch) => {
         axios.post(create_post_url, props).then((response) => {
-                dispatch(redirect(LANDING_PAGE));
+                if (successCallback && typeof successCallback === 'function') {
+                    successCallback();
+                }
                 return {
                     type: POST_NEW,
                     payload: response
                 }
             }).catch((response) => {
-                dispatch(redirect(LANDING_PAGE));
+                if (failedCallback && typeof failedCallback === 'function') {
+                    failedCallback();
+                }
                 return {
                     type: POST_NEW,
                     payload: response

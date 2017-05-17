@@ -7,6 +7,7 @@ import NewPost from './new-post';
 import ErrorPage from './error-page';
 import RouterRedirect from './router-redirect';
 import {LANDING_PAGE, FORM} from '../utils/routes';
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 
 class App extends Component {
     render() {
@@ -20,11 +21,19 @@ class App extends Component {
                     <p className="App-intro">
                         To get started, edit <code>src/App.js</code> and save to reload.
                     </p>
-                    <Switch>
-                        <Route exact path={LANDING_PAGE} component={LandingPage} />
-                        <Route path={FORM} component={NewPost} />
-                        <Route component={ErrorPage} />
-                    </Switch>
+                    <Route render={({location}) =>
+                        <div className="main-content-container">
+                            <CSSTransitionGroup transitionName="fade"
+                                            transitionEnterTimeout={500}
+                                            transitionLeaveTimeout={500}>
+                                <Switch key={location.key}>
+                                    <Route exact path={LANDING_PAGE} component={LandingPage}/>
+                                    <Route path={FORM} component={NewPost}/>
+                                    <Route component={ErrorPage}/>
+                                </Switch>
+                            </CSSTransitionGroup>
+                        </div>
+                    } />
                     <RouterRedirect/>
                 </div>
             </Router>

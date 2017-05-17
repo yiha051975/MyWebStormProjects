@@ -1,3 +1,8 @@
+h2 {
+  margin: 0;
+  padding: 0.83em 0;
+}
+
 .App {
   text-align: center;
 }
@@ -21,4 +26,36 @@
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+.main-content-container {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.fade-enter {
+  opacity: 0;
+  transform: translate3d(100%,0, -500px);
+  width: 100%;
+  position: absolute;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 500ms cubic-bezier(0.4,0,0.2,1), transform 300ms cubic-bezier(0.4,0,0.2,1);
+  transform: translate3d(0,0,0);
+}
+
+.fade-leave {
+  opacity: 1;
+  transform: translate3d(0,0,0);
+  width: 100%;
+  position: absolute;
+}
+
+.fade-leave.fade-leave-active {
+  opacity: 0;
+  transition: opacity 500ms cubic-bezier(0.4,0,0.2,1), transform 300ms cubic-bezier(0.4,0,0.2,1);
+  transform: translate3d(-100%,0, -500px);
 }
