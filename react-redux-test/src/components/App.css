@@ -1,10 +1,6 @@
-h2 {
-  margin: 0;
-  padding: 0.83em 0;
-}
-
 .App {
   text-align: center;
+  min-height: 100vh;
 }
 
 .App-logo {
@@ -36,26 +32,26 @@ h2 {
 
 .fade-enter {
   opacity: 0;
-  transform: translate3d(100%,0, -500px);
-  width: 100%;
+  transform: translate3d(100%,0, -1000px);
   position: absolute;
+  width: 100%;
 }
 
 .fade-enter.fade-enter-active {
   opacity: 1;
-  transition: opacity 500ms cubic-bezier(0.4,0,0.2,1), transform 300ms cubic-bezier(0.4,0,0.2,1);
+  transition: opacity 500ms cubic-bezier(0.4,0,0.2,1), transform 500ms cubic-bezier(0.4,0,0.2,1);
   transform: translate3d(0,0,0);
 }
 
 .fade-leave {
   opacity: 1;
   transform: translate3d(0,0,0);
-  width: 100%;
   position: absolute;
+  width: 100%;
 }
 
 .fade-leave.fade-leave-active {
   opacity: 0;
-  transition: opacity 500ms cubic-bezier(0.4,0,0.2,1), transform 300ms cubic-bezier(0.4,0,0.2,1);
-  transform: translate3d(-100%,0, -500px);
+  transition: opacity 500ms cubic-bezier(0.4,0,0.2,1), transform 500ms cubic-bezier(0.4,0,0.2,1);
+  transform: translate3d(-100%,0, -1000px);
 }
