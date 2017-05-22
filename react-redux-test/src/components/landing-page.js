@@ -10,7 +10,7 @@ import {FORM} from '../utils/routes';
 class LandingPage extends Component {
     render() {
         return (
-            <div>
+            <div className="min-width-100">
                 <h2>This is landing page.</h2>
                 <Link to={FORM}>Create new Post</Link>
             </div>

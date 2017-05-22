@@ -56,7 +56,7 @@ class NewPost extends Component {
 
     render() {
         return (
-            <div>
+            <div className="min-width-100">
                 <h2>This is Form Page.</h2>
                 <Link to={LANDING_PAGE}>Home</Link>
                 <form onSubmit={this.props.handleSubmit(this.onSubmit.bind(this))}>
