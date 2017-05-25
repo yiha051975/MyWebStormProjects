@@ -17,6 +17,12 @@ const required = function(value) {
 };
 
 class NewPost extends Component {
+    constructor(props) {
+        super(props);
+
+        this.onSubmit = this.onSubmit.bind(this);
+    }
+
     onSubmit(props) {
         console.log('form data: ', props);
         this.props.createPost(props, () => browserHistory.push(LANDING_PAGE));
@@ -26,7 +32,7 @@ class NewPost extends Component {
         return (
             <div className={`form-group${touched && error ? ' has-danger' : ''}`}>
                 <div>
-                    <label htmlFor={fieldId}>{questionText}</label>
+                    <label htmlFor={fieldId} className="form-control-label">{questionText}</label>
                 </div>
                 <div>
                     <input type={type} {...input} id={fieldId} className="form-control" />
@@ -42,7 +48,7 @@ class NewPost extends Component {
         return (
             <div className={`form-group${touched && error ? ' has-danger' : ''}`}>
                 <div>
-                    <label htmlFor={fieldId}>{questionText}</label>
+                    <label htmlFor={fieldId} className="form-control-label">{questionText}</label>
                 </div>
                 <div>
                     <textarea {...input} id={fieldId} className="form-control" />
@@ -59,7 +65,7 @@ class NewPost extends Component {
             <div className="min-width-100">
                 <h2>This is Form Page.</h2>
                 <Link to={LANDING_PAGE}>Home</Link>
-                <form onSubmit={this.props.handleSubmit(this.onSubmit.bind(this))}>
+                <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
                     <Field name="title" component={this.renderInputField} type="text" questionText="Title" fieldId="title" validate={[required]} />
                     <Field name="description" component={this.renderInputField} type="text" questionText="Description" fieldId="description" validate={required} />
                     <Field name="content" component={this.renderTextArea} questionText="Content" fieldId="content" validate={required}/>
