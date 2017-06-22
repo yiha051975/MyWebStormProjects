@@ -83,6 +83,4 @@ crashlytics-build.properties
 # Created by .ignore support plugin (hsz.mobi)
 
 uploads\*
-.idea
 target
->>>>>>> Build Rest Service with EJB, JPA and Bean Validation
