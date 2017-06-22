@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 ### Node template
 # Logs
 logs
@@ -66,10 +67,7 @@ node_modules
 
 # IntelliJ
 /out/
-<<<<<<< HEAD
 dist/
-=======
->>>>>>> 9599afb59378ef1391a643e0d0cfff3d81fdc0b9
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
@@ -85,3 +83,6 @@ crashlytics-build.properties
 # Created by .ignore support plugin (hsz.mobi)
 
 uploads\*
+.idea
+target
+>>>>>>> Build Rest Service with EJB, JPA and Bean Validation

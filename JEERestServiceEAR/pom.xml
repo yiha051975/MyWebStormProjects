@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>rest</artifactId>
+        <groupId>com.sheldon</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.sheldon.rest</groupId>
+    <artifactId>JEERestServiceEAR</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>ear</packaging>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-ear-plugin</artifactId>
+                <version>2.10.1</version>
+                <configuration>
+                    <defaultLibBundleDir>lib/</defaultLibBundleDir>
+                    <skinnyWars>true</skinnyWars>
+                    <modules>
+                        <webModule>
+                            <groupId>com.sheldon.rest</groupId>
+                            <artifactId>JEERestService</artifactId>
+                            <contextRoot>JEERestService</contextRoot>
+                        </webModule>
+                    </modules>
+                    <generateModuleId>true</generateModuleId>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.1</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+            <!--<plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>1.1.0.Final</version>
+                <executions>
+                    &lt;!&ndash; Undeploy the application on clean &ndash;&gt;
+                    <execution>
+                        <id>undeploy</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>undeploy</goal>
+                        </goals>
+                        <configuration>
+                            <ignoreMissingDeployment>true</ignoreMissingDeployment>
+                        </configuration>
+                    </execution>
+                    &lt;!&ndash; Deploy the JDBC library &ndash;&gt;
+                    <execution>
+                        <id>deploy-driver</id>
+                        <phase>install</phase>
+                        <configuration>
+                            <groupId>org.postgresql</groupId>
+                            <artifactId>postgresql</artifactId>
+                            <version>9.4.1212</version>
+                            <name>postgresql-9.4.1212.jar</name>
+                            <type>jar</type>
+                        </configuration>
+                        <goals>
+                            <goal>deploy-artifact</goal>
+                        </goals>
+                    </execution>
+                    &lt;!&ndash; Add a data source &ndash;&gt;
+                    <execution>
+                        <id>add-datasource</id>
+                        <phase>install</phase>
+                        <configuration>
+                            <address>subsystem=datasources,data-source=CoffeeShop</address>
+                            <resources>
+                                <resource>
+                                    <enableResource>true</enableResource>
+                                    <properties>
+                                        <connection-url>jdbc:postgresql://localhost:5432/CoffeeShop</connection-url>
+                                        <jndi-name>java:CoffeeShop</jndi-name>
+                                        <enabled>true</enabled>
+                                        <enable>true</enable>
+                                        <user-name>postgres</user-name>
+                                        <password>yiha0215</password>
+                                        <driver-name>postgresql-9.4.1212.jar</driver-name>
+                                        <use-ccm>false</use-ccm>
+                                    </properties>
+                                </resource>
+                            </resources>
+                        </configuration>
+                        <goals>
+                            <goal>add-resource</goal>
+                        </goals>
+                    </execution>
+                    &lt;!&ndash; Deploy the application on install &ndash;&gt;
+                    <execution>
+                        <id>deploy</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>-->
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.sheldon.rest</groupId>
+            <artifactId>JEERestService</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>war</type>
+        </dependency>
+    </dependencies>
+</project>
